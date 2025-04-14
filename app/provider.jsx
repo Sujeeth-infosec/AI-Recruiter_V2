@@ -49,3 +49,8 @@ function Provider({ children }) {
 }
 
 export default Provider
+
+export const useUser=()=>{
+  const context=useContext(UserDetailContext);
+  return context;
+}
