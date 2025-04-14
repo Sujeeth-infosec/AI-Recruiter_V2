@@ -1,9 +1,18 @@
-import React from 'react'
+'use client';
+import React from 'react';
+import WelcomeContainer from './_components/WelcomeContainer';
+import CreateOptions from './_components/CreateOptions';
+import LatestInterviewsList from './_components/LatestInterviewsList';
 
 function Dashboard() {
   return (
-    <div>Dashboard</div>
-  )
+    <div>
+      <WelcomeContainer />
+      <h2 className='my-3 font-bold text-2xl'>Dashboard</h2>
+      <CreateOptions />
+      <LatestInterviewsList />
+    </div>
+  );
 }
 
-export default Dashboard
+export default Dashboard;

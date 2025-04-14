@@ -2,6 +2,7 @@
 import { supabase } from '@/services/supabaseClient'
 import React, { useEffect, useState } from 'react'
 import { UserDetailContext } from '@/context/UserDetailContext'
+import { useContext } from 'react';
 
 function Provider({ children }) {
   const [user, setUser] = useState()
