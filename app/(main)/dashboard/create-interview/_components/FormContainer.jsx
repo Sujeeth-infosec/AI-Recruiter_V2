@@ -22,7 +22,13 @@ function FormContainer({ onHandleInputChange }) {
   }, [interviewType]);
 
   const AddInterviewType = (name) => {
-    
+    const data = InterviewType.includes(name);
+    if (!data) {
+      setInterviewType(prev => [...prev, name]);
+    } else {
+      const result = interviewType.filter(item => item !== name);
+      setInterviewType(result);
+    }
   }
 
   return (
@@ -77,11 +83,7 @@ function FormContainer({ onHandleInputChange }) {
                 ${interviewType.includes(type.name) ? 'text-primary bg-blue-100' : ''}
                 hover:bg-gray-100`}
               onClick={() => {
-                setInterviewType((prev) => {
-                  return prev.includes(type.name)
-                    ? prev.filter((t) => t !== type.name)
-                    : [...prev, type.name];
-                });
+                AddInterviewType(type.name);
               }}
             >
               {type.icon && <type.icon className="h-4 w-4" />}
