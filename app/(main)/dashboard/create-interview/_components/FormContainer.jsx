@@ -21,6 +21,10 @@ function FormContainer({ onHandleInputChange }) {
     }
   }, [interviewType]);
 
+  const AddInterviewType = (name) => {
+    
+  }
+
   return (
     <div className="p-5 bg-white rounded-xl shadow-md">
       <div>
@@ -70,8 +74,8 @@ function FormContainer({ onHandleInputChange }) {
               key={index}
               className={`cursor-pointer flex items-center gap-2 p-1 px-2
                 border border-gray-300 rounded-2xl shadow-sm
-                ${interviewType.includes(type.name)&& 'bg-white'}
-                hover:bg-gray-100 ${interviewType.includes(type.name)&& 'text-primary bg-blue-100'}'`}
+                ${interviewType.includes(type.name) ? 'text-primary bg-blue-100' : ''}
+                hover:bg-gray-100`}
               onClick={() => {
                 setInterviewType((prev) => {
                   return prev.includes(type.name)
@@ -80,7 +84,7 @@ function FormContainer({ onHandleInputChange }) {
                 });
               }}
             >
-              <type.icon className="h-4 w-4" />
+              {type.icon && <type.icon className="h-4 w-4" />}
               <span className="text-sm">{type.name}</span>
             </div>
           ))}
