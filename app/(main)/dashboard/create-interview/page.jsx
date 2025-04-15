@@ -4,7 +4,7 @@ import WelcomeContainer from '../_components/WelcomeContainer'
 function CreateInterview() {
   return (
     <div>
-        <WelcomeContainer/>
+      
     </div>
 
   )

@@ -1,17 +1,17 @@
-import React from 'react'
-import DashboardProvider from './provider'
+'use client';
+import React from 'react';
+import DashboardProvider from './provider';
+import WelcomeContainer from './dashboard/_components/WelcomeContainer';
 
 function DashboardLayout({ children }) {
   return (
-    <div>
-        <DashboardProvider>
-            <div className='p-10 w-full'>
-            {children}
-            </div>
-        </DashboardProvider>
-    </div>
-  )
-}  
+    <DashboardProvider>
+      <div className="p-10 w-full space-y-6">
+        <WelcomeContainer />
+        {children}
+      </div>
+    </DashboardProvider>
+  );
+}
 
-
-export default DashboardLayout
+export default DashboardLayout;
