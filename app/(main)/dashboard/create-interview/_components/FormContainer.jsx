@@ -28,9 +28,9 @@ function FormContainer({ onHandleInputChange }) {
         <Input
           placeholder="e.g. Software Engineer"
           className="mt-2"
-          onChange={(event) =>
-            onHandleInputChange('jobposition', event.target.value)
-          }
+          onChange={(event) => {
+            onHandleInputChange('jobposition', event.target.value);
+          }}
         />
       </div>
       <div className="mt-4">
@@ -38,14 +38,18 @@ function FormContainer({ onHandleInputChange }) {
         <Textarea
           placeholder="Enter detailed job description"
           className="h-[200px] mt-2"
-          onChange={(event) =>
-            onHandleInputChange('jobDescription', event.target.value)
-          }
+          onChange={(event) => {
+            onHandleInputChange('jobDescription', event.target.value);
+          }}
         />
       </div>
       <div className="mt-4">
         <h2 className="text-sm font-medium">Interview Duration</h2>
-        <Select onValueChange={(value) => onHandleInputChange('duration', value)}>
+        <Select
+          onValueChange={(value) => {
+            onHandleInputChange('duration', value);
+          }}
+        >
           <SelectTrigger className="w-full mt-2">
             <SelectValue placeholder="Select Duration" />
           </SelectTrigger>
@@ -67,14 +71,14 @@ function FormContainer({ onHandleInputChange }) {
               className={`cursor-pointer flex items-center gap-2 p-1 px-2
                 border border-gray-300 rounded-2xl shadow-sm
                 ${interviewType.includes(type.name) ? 'bg-gray-200' : 'bg-white'}
-                hover:bg-gray-100`}
-              onClick={() =>
-                setInterviewType((prev) =>
-                  prev.includes(type.name)
+                hover:bg-gray-100 ${interviewType.includes(type.name)&& 'text-primary bg-blue-100'}'`}
+              onClick={() => {
+                setInterviewType((prev) => {
+                  return prev.includes(type.name)
                     ? prev.filter((t) => t !== type.name)
-                    : [...prev, type.name]
-                )
-              }
+                    : [...prev, type.name];
+                });
+              }}
             >
               <type.icon className="h-4 w-4" />
               <span className="text-sm">{type.name}</span>
