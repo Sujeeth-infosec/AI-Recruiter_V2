@@ -70,7 +70,7 @@ function FormContainer({ onHandleInputChange }) {
               key={index}
               className={`cursor-pointer flex items-center gap-2 p-1 px-2
                 border border-gray-300 rounded-2xl shadow-sm
-                ${interviewType.includes(type.name) ? 'bg-gray-200' : 'bg-white'}
+                ${interviewType.includes(type.name)&& 'bg-white'}
                 hover:bg-gray-100 ${interviewType.includes(type.name)&& 'text-primary bg-blue-100'}'`}
               onClick={() => {
                 setInterviewType((prev) => {
