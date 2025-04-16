@@ -14,17 +14,28 @@ function CreateInterview() {
   const [formData, setFormData] = useState({});
 
   const onHandleInputChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({
+       ...prev, 
+       [field]: value
+      }));
+
     console.log("Formdata", formData);
+
   };
 
-  const onGoToNext=()=>{
-    if(formData?.length<=3)
-    {
-      toast('Please Enter All Details')
+  const onGoToNext = () => {
+    let missingField = '';
+
+    if(!formData.jobPosition) missingField += 'jobPosition';
+    else if(!formData.jobDescription) missingField += 'jobDescription';
+    else if(!formData.duration) missingField += 'duration';
+    else if(!formData.type) missingField += 'type';
+
+    if(missingField){
+      toast.error( `${missingField} is required` || "All fields are required")
       return;
     }
-    setStep(step + 1);
+    setStep(step+1)
   }
 
   return (
@@ -34,10 +45,10 @@ function CreateInterview() {
         <h2 className="font-bold text-2xl">Create New Interview</h2>
       </div>
       <Progress value={step*33.33} className="my-5 h-2 w-full" />
-      {step === 1 ? 
-       <FormContainer onHandleInputChange={onHandleInputChange} GoToNext={() => onGoToNext()} />
-
-         : step === 2 ? <QuestionList /> : null}
+      {step == 1 ? <FormContainer
+      onHandleInputChange={onHandleInputChange} 
+      GoToNext={() => onGoToNext()} />
+        : step == 2 ? <QuestionList formData={formData}/> : null}
     </div>
   );
 }

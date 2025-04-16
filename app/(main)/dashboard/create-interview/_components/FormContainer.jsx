@@ -16,13 +16,14 @@ function FormContainer({ onHandleInputChange, GoToNext }) {
   const [interviewType, setInterviewType] = useState([]);
 
   useEffect(() => {
-    if (interviewType.length) {
+    if (interviewType) {
       onHandleInputChange('type', interviewType);
     }
   }, [interviewType]);
 
   const AddInterviewType = (name) => {
-    const data = InterviewType.includes(name);
+    const data = interviewType.includes(name);
+    console.log(data, name)
     if (!data) {
       setInterviewType(prev => [...prev, name]);
     } else {
@@ -30,7 +31,7 @@ function FormContainer({ onHandleInputChange, GoToNext }) {
       setInterviewType(result);
     }
   }
-
+console.log(interviewType);
   return (
     <div className="p-5 bg-white rounded-xl shadow-md">
       <div>
@@ -39,7 +40,7 @@ function FormContainer({ onHandleInputChange, GoToNext }) {
           placeholder="e.g. Software Engineer"
           className="mt-2"
           onChange={(event) => {
-            onHandleInputChange('jobposition', event.target.value);
+            onHandleInputChange('jobPosition', event.target.value);
           }}
         />
       </div>
@@ -82,11 +83,10 @@ function FormContainer({ onHandleInputChange, GoToNext }) {
                 border border-gray-300 rounded-2xl shadow-sm
                 ${interviewType.includes(type.name) ? 'text-primary bg-blue-100' : ''}
                 hover:bg-gray-100`}
-              onClick={() => {
-                AddInterviewType(type.name);
-              }}
+              onClick={() => AddInterviewType(type.name)
+              }
             >
-              {type.icon && <type.icon className="h-4 w-4" />}
+              <type.icon className="h-4 w-4" />
               <span className="text-sm">{type.name}</span>
             </div>
           ))}

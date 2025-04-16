@@ -33,8 +33,9 @@ function QuestionList({ formData }) {
           <Loader2Icon className="animate-spin" />
           <div className="p-5 bg-blue-50 rounded-xl border border-gray-100 flex gap-5 items-center">
             <h2>Generating Interview Questions</h2>
-            
+            <div>
             <p>Our AI is crafting the questions based on your job position.</p>
+            </div>
           </div>
         </div>
       )}
