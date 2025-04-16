@@ -18,16 +18,13 @@ function CreateInterview() {
     console.log("Formdata", formData);
   };
 
-  
-  const totalSteps = 3;
-  const progressValue = (step / totalSteps) * 100;
-  const onGoToNext = () => {
-    if(formData?.jobPosition||!formData?.jobDescription||!formData?.duration||!formData.type)
+  const onGoToNext=()=>{
+    if(formData?.length<=3)
     {
-      toast('Please enter all details!');
+      toast('Please Enter All Details')
       return;
     }
-    setStep(step+1);
+    setStep(step + 1);
   }
 
   return (
@@ -36,10 +33,11 @@ function CreateInterview() {
         <ArrowLeft onClick={() => router.back()} className="cursor-pointer" />
         <h2 className="font-bold text-2xl">Create New Interview</h2>
       </div>
-      <Progress value={step * 33.33} className="my-5 h-2 w-full" />
-      {step==1?<FormContainer onHandleInputChange={onHandleInputChange}
-      GoToNext={() => onGoToNext()}/>
-      :step==2?<QuestionList formData={formData}/>:null}
+      <Progress value={step*33.33} className="my-5 h-2 w-full" />
+      {step === 1 ? 
+       <FormContainer onHandleInputChange={onHandleInputChange} GoToNext={() => onGoToNext()} />
+
+         : step === 2 ? <QuestionList /> : null}
     </div>
   );
 }
