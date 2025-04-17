@@ -3,11 +3,12 @@ import React from 'react';
 import DashboardProvider from './provider';
 import WelcomeContainer from './dashboard/_components/WelcomeContainer';
 
+
 function DashboardLayout({ children }) {
   return (
     <DashboardProvider>
       <div className="p-10 w-full space-y-6">
-        <WelcomeContainer />
+        <WelcomeContainer/>
         {children}
       </div>
     </DashboardProvider>
