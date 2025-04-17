@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 
 function QuestionList({ formData }) {
   const [loading, setLoading] = useState(true);
+  const [questionList,setQuestionList]=useState();
 
   useEffect(() => {
     if (formData) {
@@ -18,10 +19,14 @@ function QuestionList({ formData }) {
       const result = await axios.post('/api/ai-model', {
         ...formData,
       });
-      console.log(result.data);
+      console.log(result.data.Content);
+      const Content=JSON.parse(result.data.Content);
+      
+      setQuestionList(Content);
       setLoading(false);
     } catch (e) {
       toast('Server Error, Try Again');
+    } finally {
       setLoading(false);
     }
   };
@@ -29,13 +34,13 @@ function QuestionList({ formData }) {
   return (
     <div>
       {loading && (
-        <div>
-          <Loader2Icon className="animate-spin" />
-          <div className="p-5 bg-blue-50 rounded-xl border border-gray-100 flex gap-5 items-center">
-            <h2>Generating Interview Questions</h2>
-            <div>
-            <p>Our AI is crafting the questions based on your job position.</p>
-            </div>
+        <div className="flex flex-col items-center gap-4 mt-10">
+          <Loader2Icon className="animate-spin w-6 h-6 text-blue-500" />
+          <div className="p-5 bg-blue-50 rounded-xl border border-gray-100 flex flex-col gap-2 items-center text-center">
+            <h2 className="font-semibold text-lg">Generating Interview Questions</h2>
+            <p className="text-sm text-gray-600">
+              Our AI is crafting personalized questions based on your job position
+            </p>
           </div>
         </div>
       )}
