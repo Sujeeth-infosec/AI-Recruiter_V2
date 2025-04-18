@@ -1,11 +1,18 @@
+'use client';
+import { useUser } from '@/app/provider';
+import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { Loader2Icon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { v4 as uuidv4 } from 'uuid';
+import { supabase } from '@/services/supabaseClient';
 
 function QuestionList({ formData }) {
   const [loading, setLoading] = useState(true);
   const [questionList, setQuestionList] = useState(null);
+  const [saveLoading, setSaveLoading] = useState(false);
+  const { user } = useUser();
 
   useEffect(() => {
     if (formData) {
@@ -30,7 +37,6 @@ function QuestionList({ formData }) {
         return;
       }
 
-      // Extract JSON block between ```json and ```
       const match = rawContent.match(/```json\s*([\s\S]*?)\s*```/);
 
       if (!match || !match[1]) {
@@ -49,6 +55,33 @@ function QuestionList({ formData }) {
     }
   };
 
+  const onFinish = async () => {
+    setSaveLoading(true);
+    const interview_id = uuidv4();
+
+    const { data, error } = await supabase
+      .from('interviews')
+      .insert([
+        {
+          ...formData,
+          questionList: questionList,
+          userEmail: user?.email,
+          interview_id: interview_id,
+        },
+      ])
+      .select();
+
+    setSaveLoading(false);
+
+    if (error) {
+      toast('Failed to save interview');
+      console.error(error);
+    } else {
+      toast('Interview saved successfully!');
+      console.log(data);
+    }
+  };
+
   return (
     <div>
       {loading && (
@@ -63,14 +96,22 @@ function QuestionList({ formData }) {
         </div>
       )}
 
-      {questionList && questionList.interviewQuestions && (
-        <div className="mt-10 space-y-4">
-          {questionList.interviewQuestions.map((item, index) => (
-            <div key={index} className="p-4 border rounded-lg bg-white shadow-sm">
-              <p className="font-medium">{index + 1}. {item.question}</p>
-              <p className="text-sm text-gray-500">Type: {item.type}</p>
-            </div>
-          ))}
+      {!loading && questionList && questionList.interviewQuestions && (
+        <div className="mt-10">
+          <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Generated Questions</h2>
+          <div className="space-y-4">
+            {questionList.interviewQuestions.map((item, index) => (
+              <div key={index} className="p-4 border rounded-lg bg-white shadow-sm">
+                <p className="font-medium">{index + 1}. {item.question}</p>
+                <p className="text-sm text-primary">Type: {item.type}</p>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-end mt-10">
+            <Button onClick={onFinish} disabled={saveLoading}>
+              {saveLoading ? 'Saving...' : 'Finish'}
+            </Button>
+          </div>
         </div>
       )}
     </div>
