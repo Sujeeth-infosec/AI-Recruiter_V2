@@ -8,7 +8,8 @@ import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/services/supabaseClient';
 
-function QuestionList({ formData }) {
+
+function QuestionList({ formData, onCreateLink }) {
   const [loading, setLoading] = useState(true);
   const [questionList, setQuestionList] = useState(null);
   const [saveLoading, setSaveLoading] = useState(false);
@@ -73,6 +74,8 @@ function QuestionList({ formData }) {
 
     setSaveLoading(false);
 
+    onCreateLink(interview_id)
+
     if (error) {
       toast('Failed to save interview');
       console.error(error);
@@ -109,7 +112,7 @@ function QuestionList({ formData }) {
           </div>
           <div className="flex justify-end mt-10">
             <Button onClick={onFinish} disabled={saveLoading}>
-              {saveLoading ? 'Saving...' : 'Finish'}
+              {saveLoading ? 'Saving...' : 'Create Interview Link & Finish'}
             </Button>
           </div>
         </div>
