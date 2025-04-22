@@ -22,7 +22,7 @@ function Login() {
   }
 
   return (
-    <div className="flex h-screen bg-cover bg-center" style={{ backgroundImage: "url('/999.jpeg')" }}>
+    <div className="flex h-screen bg-gradient-to-b from-blue-100 to-blue-80  ">
       {/* Left Section (Login Section) */}
       <div className="flex justify-center items-center w-3/4 ">
       <div className=" flex flex-col justify-center items-center w-3/4  p-10 shadow-xl bg-beige-100 rounded-2xl ">
@@ -37,8 +37,8 @@ function Login() {
         {/* <Image src={"/8.png"} alt="Logo" width={200} height={200} className="mb-6 mt-8" /> */}
 
         {/* Content Section */}
-        <h2 className="  text-5xl font-extrabold text-center text-gray-800 tracking-wide mt-5">
-          Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-green-400">AI Recruiter</span>
+        <h2 className="  text-5xl font-extrabold text-center text-gray-800 tracking-wide mt-5 ">
+          Welcome to<span className=" rounded-xl text-gray-800 p-2 py-1 ">AI Recruiter</span>
         </h2>
         <p className="text-gray-600 text-center mt-8 text-lg">
           <Typewriter
@@ -47,7 +47,7 @@ function Login() {
           />
         </p>
         <Button
-          className="mt-10 mb-8 w-full bg-gradient-to-r text-lg from-green-400 to-blue-500 text-white font-semibold py-6 px-6 rounded-full shadow-lg hover:shadow-2xl transform hover:scale-110 transition-transform duration-500"
+          className="mt-10 mb-8 w-full text-white font-bold py-6 px-6 rounded-full shadow-lg hover:shadow-2xl transform hover:scale-110 transition-transform duration-500"
           onClick={signInWithGoogle}
         >
           Login with Google
