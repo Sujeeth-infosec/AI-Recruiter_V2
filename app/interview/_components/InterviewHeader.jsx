@@ -2,13 +2,13 @@ import React from 'react'
 import Image from 'next/image'
 
 function InterviewHeader() {
-    return (
-        <div className='p-4 shadow-sm' >
-            <Image src={'/logo.jpeg'} alt='Logo' width={200} height={200} 
-            className='mb-6 mt-8 w-[140px]'
-            />
-        </div>
-    )
+  return (
+    <header className="bg-white shadow-sm">
+      <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-left">
+        <Image src="/logo.jpeg" alt="Logo" width={100} height={100} />
+      </div>
+    </header>
+  )
 }
 
 export default InterviewHeader
