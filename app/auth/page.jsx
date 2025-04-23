@@ -47,7 +47,11 @@ function Login() {
           />
         </p>
         <Button
+<<<<<<< HEAD
+          className="mt-10 mb-8 w-full  text-lg from-green-400 to-blue-500 text-white font-semibold py-6 px-6 rounded-full shadow-lg hover:shadow-2xl transform hover:scale-110 transition-transform duration-500"
+=======
           className="mt-10 mb-8 w-full text-white font-bold py-6 px-6 rounded-full shadow-lg hover:shadow-2xl transform hover:scale-110 transition-transform duration-500"
+>>>>>>> 36c33b6e128c0f4064da25177505dadf575b7709
           onClick={signInWithGoogle}
         >
           Login with Google

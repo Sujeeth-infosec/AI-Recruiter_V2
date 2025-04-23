@@ -56,7 +56,7 @@ function CreateInterview() {
       onHandleInputChange={onHandleInputChange} 
       GoToNext={() => onGoToNext()} />
         : step == 2 ? <QuestionList formData={formData} onCreateLink={(interview_id)=>onCreateLink(interview_id)}/> : 
-        step == 3 ? <InterviewLink interviewId={interviewId}
+        step == 3 ? <InterviewLink interview_id={interviewId}
         formData={formData} 
         /> :null }
     </div>
