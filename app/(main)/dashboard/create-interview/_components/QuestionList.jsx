@@ -28,9 +28,9 @@ function QuestionList({ formData, onCreateLink }) {
         ...formData,
       });
 
-      console.log("API Response:", result.data);
+     /////////////
 
-      const rawContent = result.data.content || result.data.Content;
+      const rawContent = result?.data?.content || result?.data?.Content;
 
       if (!rawContent) {
         toast('Invalid response format');
@@ -59,9 +59,10 @@ function QuestionList({ formData, onCreateLink }) {
   const onFinish = async () => {
     setSaveLoading(true);
     const interview_id = uuidv4();
+    console.log(formData);
 
     const { data, error } = await supabase
-      .from('interviews')
+      .from('Interviews')
       .insert([
         {
           ...formData,

@@ -12,9 +12,9 @@ import { InterviewDataContext } from '@/context/InterviewDataContext';
 function Interview() {
   const params = useParams();
   const interview_id = params?.interview_id;
-
+    console.log(interview_id)
   const [interviewData, setInterviewData] = useState();
-  const [userName, setUserName] = useState();
+  const [userName, setUserName] = useState([]);
   const [loading, setLoading] = useState(false);
   const context = useContext(InterviewDataContext);
   const [interviewInfo, setInterviewInfo] = useState(context);
@@ -28,11 +28,16 @@ function Interview() {
     }
   }, [interview_id]);
 
+  useEffect(() => {
+    console.log(userName)
+    }, [userName]);
+
   const GetInterviewDetails = async () => {
     setLoading(true);
     try {
+      console.log(userName)
       console.log("Fetching interview details for interview_id:", interview_id);
-
+      await supabase.from('Interviews').update({ candidate_name: userName[0] }).eq('interview_id', interview_id).select()
       const { data: Interviews, error } = await supabase
         .from('Interviews')
         .select('jobPosition, jobDescription, duration, type')
@@ -61,6 +66,7 @@ function Interview() {
       return;
     }
 
+    await supabase.from('Interviews').update({ candidate_name: userName}).eq('interview_id', interview_id).select()
     const { data: Interviews, error } = await supabase
       .from('Interviews')
       .select('*')
@@ -100,7 +106,7 @@ function Interview() {
           <Input
             placeholder="e.g. Sujeeth Kumar"
             value={userName}
-            onChange={(event) => setUserName(event.target.value)}
+            onChange={(event) => setUserName([event.target.value])}
           />
         </div>
 
