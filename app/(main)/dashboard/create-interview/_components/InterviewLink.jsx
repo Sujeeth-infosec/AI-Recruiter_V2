@@ -32,8 +32,8 @@ const InterviewLink = ({ interviewId, formData }) => {
   return (
     <div className='flex flex-col items-center justify-center space-y-10'>
       <div className='flex flex-col items-center'>
-        <Image src={'/tick.gif'} alt='success_icon' width={200} height={200} className='size-[50px]' />
-        <h2 className='font-bold text-lg mt-4'>Your AI Interview is Ready!</h2>
+        <Image src={'/tick3.png'} alt='success_icon' width={200} height={300} className='size-[50px]' />
+        <h2 className='font-bold text-lg mt-3'>Your AI Interview is Ready!</h2>
         <p className='mt-3 text-muted-foreground'>Share this link with candidates to start the interview process</p>
       </div>
 
