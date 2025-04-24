@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 
 const InterviewLink = ({ interview_id, formData }) => {
   const router = useRouter();
-
+  console.log(interview_id);
   const url = process.env.NEXT_PUBLIC_HOST_URL + interview_id;
   const getInterviewURL = () => {
     return url;
