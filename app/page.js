@@ -1,8 +1,15 @@
+'use client'; 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Brain, Users, Sparkles, Target } from "lucide-react";
+import React from 'react';
+import { useRouter } from 'next/navigation';
+
+
 
 export default function Home() {
+    const router = useRouter();
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       {/* Main Content */}
@@ -65,7 +72,8 @@ export default function Home() {
 
           {/* CTA Button */}
           <div className="mt-12">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white group px-8 py-6 text-lg">
+            <Button size={"lg"} className={"bg-blue-600 hover:bg-blue-700 text-white group px-8 py-6 text-lg"} onClick={() => router.push('/dashboard')} >
+
               Start Recruiting
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
