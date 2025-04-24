@@ -6,7 +6,6 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 
 
-
 export default function Home() {
     const router = useRouter();
   
@@ -30,10 +29,10 @@ export default function Home() {
           </p>
 
           {/* Feature Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left">
+          <div className=" grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left">
             {[
               {
-                icon: <Target className="w-6 h-6" />,
+                icon: <Target className="w-6 h-6  " />,
                 title: "Smart Matching",
                 description: "AI-powered algorithms match candidates to your exact requirements"
               },
@@ -43,12 +42,12 @@ export default function Home() {
                 description: "Intelligent resume parsing and candidate assessment"
               },
               {
-                icon: <Users className="w-6 h-6" />,
+                icon: <Users className="w-6 h-6 " />,
                 title: "Talent Analytics",
                 description: "Deep insights into your candidate pool and hiring trends"
               }
             ].map((feature, index) => (
-              <div key={index} className="p-6 rounded-xl bg-white shadow-lg border border-blue-100 hover:border-blue-200 hover:shadow-xl transition-all">
+              <div key={index} className="p-6 rounded-xl bg-white shadow-lg border border-blue-300 hover:border-blue-200 hover:shadow-xl  transform hover:scale-110  duration-500">
                 <div className="text-blue-600 mb-4">{feature.icon}</div>
                 <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
                 <p className="text-gray-600 text-sm">{feature.description}</p>
