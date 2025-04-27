@@ -22,19 +22,22 @@ function Login() {
   }
 
   return (
-    <div className="flex h-screen bg-gradient-to-b from-blue-100 to-blue-80  ">
+    <div className="flex h-screen bg-gradient-to-b from-blue-300 to-white  ">
       {/* Left Section (Login Section) */}
       <div className="flex justify-center items-center w-3/4 ">
       <div className=" flex flex-col justify-center items-center w-3/4  p-10 shadow-xl bg-beige-100 rounded-2xl ">
         {/* Logo */}
-        <DotLottieReact
+        {/* <DotLottieReact
       src="animations/ai.lottie"
       loop
       autoplay
       style={{ width: "100%", height: "200px" }}
 
-    />
+    /> */}
         {/* <Image src={"/8.png"} alt="Logo" width={200} height={200} className="mb-6 mt-8" /> */}
+
+        <Image src={"/agent.png"} alt="Logo" width={300} height={400} className="mb-4 mt-2" />
+
 
         {/* Content Section */}
         <h2 className="  text-5xl font-extrabold text-center text-gray-800 tracking-wide mt-5 ">

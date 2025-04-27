@@ -2,8 +2,13 @@
 import { Video } from 'lucide-react';
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+
+
 
 function LatestInterviewsList() {
+    const router = useRouter();
+  
   const [InterviewList, setInterviewList] = useState([]);
 
   return (
@@ -14,7 +19,7 @@ function LatestInterviewsList() {
         <div className='p-5 flex flex-col items-center gap-3 text-center text-gray-500 bg-white border rounded-xl shadow-sm'>
           <Video className='text-primary h-10 w-10' />
           <h2 className='text-base'>You don't have any interview created</h2>
-          <Button>+ Create New Interview</Button>
+          <Button onClick={() => router.push('/dashboard/create-interview')}>+ Create New Interview</Button>
         </div>
       )}
     </div>
