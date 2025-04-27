@@ -1,12 +1,14 @@
+'use client'; // ADD THIS LINE at the top
+
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // for app router (Next.js 13/14+)
+import { useRouter } from "next/navigation"; // Only keep ONE import
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Brain, Users, Sparkles, Target } from "lucide-react";
 import React from 'react';
-import { useRouter } from 'next/navigation';
-
 
 export default function Home() {
+  const router = useRouter(); // Use router if you want to navigate somewhere (ex: router.push('/somewhere'))
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       {/* Main Content */}
@@ -27,10 +29,10 @@ export default function Home() {
           </p>
 
           {/* Feature Grid */}
-          <div className=" grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 text-left">
             {[
               {
-                icon: <Target className="w-6 h-6  " />,
+                icon: <Target className="w-6 h-6" />,
                 title: "Smart Matching",
                 description: "AI-powered algorithms match candidates to your exact requirements"
               },
@@ -40,12 +42,12 @@ export default function Home() {
                 description: "Intelligent resume parsing and candidate assessment"
               },
               {
-                icon: <Users className="w-6 h-6 " />,
+                icon: <Users className="w-6 h-6" />,
                 title: "Talent Analytics",
                 description: "Deep insights into your candidate pool and hiring trends"
               }
             ].map((feature, index) => (
-              <div key={index} className="p-6 rounded-xl bg-white shadow-lg border border-blue-300 hover:border-blue-200 hover:shadow-xl  transform hover:scale-110  duration-500">
+              <div key={index} className="p-6 rounded-xl bg-white shadow-lg border border-blue-300 hover:border-blue-200 hover:shadow-xl transform hover:scale-110 duration-500">
                 <div className="text-blue-600 mb-4">{feature.icon}</div>
                 <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
                 <p className="text-gray-600 text-sm">{feature.description}</p>
@@ -69,7 +71,11 @@ export default function Home() {
 
           {/* CTA Button */}
           <div className="mt-12">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white group px-8 py-6 text-lg">
+            <Button
+              size="lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white group px-8 py-6 text-lg"
+              onClick={() => router.push('/start')} // Example navigation
+            >
               Start Recruiting
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
