@@ -28,7 +28,7 @@ const AlertConfirmation = ({ children, stopInterviewMethod }) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={()=> stopInterviewMethod()}>Continue</AlertDialogAction>
+                    {/* <AlertDialogAction onClick={()=> stopInterviewMethod()}>Continue</AlertDialogAction> */}
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

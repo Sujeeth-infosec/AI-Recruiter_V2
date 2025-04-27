@@ -3,26 +3,28 @@ import { useUser } from '@/app/provider';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { Loader2Icon } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '@/services/supabaseClient';
-
 
 function QuestionList({ formData, onCreateLink }) {
   const [loading, setLoading] = useState(true);
   const [questionList, setQuestionList] = useState(null);
   const [saveLoading, setSaveLoading] = useState(false);
   const { user } = useUser();
+  const hasCalled = useRef(false);
 
   useEffect(() => {
-    if (formData) {
+    if (formData && !hasCalled.current) {
       GenerateQuestionList();
     }
+    console.log('formData questionList',formData )
   }, [formData]);
 
   const GenerateQuestionList = async () => {
     setLoading(true);
+    hasCalled.current = true;
     try {
       const result = await axios.post('/api/ai-model', {
         ...formData,
