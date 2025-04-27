@@ -15,6 +15,7 @@ function Interview() {
     console.log(interview_id)
   const [interviewData, setInterviewData] = useState();
   const [userName, setUserName] = useState([]);
+  const [UserEmail,setUserEmail] = useState();
   const [loading, setLoading] = useState(false);
   const context = useContext(InterviewDataContext);
   const [interviewInfo, setInterviewInfo] = useState(context);
@@ -107,6 +108,15 @@ function Interview() {
             placeholder="e.g. Sujeeth Kumar"
             value={userName}
             onChange={(event) => setUserName([event.target.value])}
+          />
+        </div>
+
+        <div className="w-full mt-6">
+          <label className="block text-gray-700 font-medium mb-2">Enter your Email</label>
+          <Input
+            placeholder="e.g. SujeethKumararjun@gmail.com"
+            value={userName}
+            onChange={(event) => setUseremail([event.target.value])}
           />
         </div>
 
