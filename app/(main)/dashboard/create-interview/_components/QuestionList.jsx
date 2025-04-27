@@ -28,7 +28,6 @@ function QuestionList({ formData, onCreateLink }) {
         ...formData,
       });
 
-     /////////////
 
       const rawContent = result?.data?.content || result?.data?.Content;
 

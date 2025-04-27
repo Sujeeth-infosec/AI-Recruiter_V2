@@ -1,8 +1,16 @@
+'use client';
 import Image from "next/image";
+import { useRouter } from "next/navigation"; // for app router (Next.js 13/14+)
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Brain, Users, Sparkles, Target } from "lucide-react";
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleStartRecruiting = () => {
+    router.push("/auth"); // Redirect to /auth
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       {/* Main Content */}
@@ -13,11 +21,11 @@ export default function Home() {
             <Brain className="w-20 h-20 text-blue-600 mb-6 animate-pulse" />
             <Sparkles className="w-8 h-8 text-blue-400 absolute -top-2 -right-2 animate-bounce" />
           </div>
-          
+
           <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400">
             AI-Powered Recruitment
           </h1>
-          
+
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Transform your hiring process with intelligent candidate matching and automated screening. Find the perfect talent faster than ever before.
           </p>
@@ -65,7 +73,11 @@ export default function Home() {
 
           {/* CTA Button */}
           <div className="mt-12">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white group px-8 py-6 text-lg">
+            <Button 
+              size="lg" 
+              className="bg-blue-600 hover:bg-blue-700 text-white group px-8 py-6 text-lg"
+              onClick={handleStartRecruiting}
+            >
               Start Recruiting
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
