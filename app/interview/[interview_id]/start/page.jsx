@@ -6,6 +6,7 @@ import Image from 'next/image';
 import React, { useContext, useEffect, useState } from 'react';
 import Vapi from "@vapi-ai/web";
 import AlertConfirmation from './_components/AlertConfirmation';
+import { toast } from 'sonner';
 
 
 function StartInterview() {
@@ -14,25 +15,26 @@ function StartInterview() {
   const [activeUser, setActiveUser] = useState(false);
 
   useEffect(()=>{
+    console.log(interviewInfo);
     interviewInfo&&startCall();
   },[interviewInfo])
 
-  const startCall=()=>{
-    let questionList;
-    interviewInfo?.interviewData?.questionList.forEach((item, index)=>(
-      questionList=item+','+questionList
-    ));
+  const startCall=async()=>{
+    const questionList = interviewInfo?.questionList?.interviewQuestions
+            ?.map((item) => item?.question)
+            ?.join(',');
+    console.log(questionList);
     
    const assistantOptions = {
     name: "AI Recruiter",
-    firstMessage: "Hi "+interviewInfo?.userName+", how are you? Ready for your interview on "+interviewInfo?.interviewData?.jobPosition+"?",
+    firstMessage: "Hi "+interviewInfo?.candidate_name+", how are you? Ready for your interview on "+interviewInfo?.jobPosition+"?",
     transcriber: {
         provider: "deepgram",
         model: "nova-3",
-        language: "multi",
+        language: "en-US",
     },
     voice: {
-        provider: "playht",
+        provider: "vapi",
         voiceId: "Neha",
     },
     model: {
@@ -45,7 +47,7 @@ function StartInterview() {
   You are an AI voice assistant conducting interviews.
 Your job is to ask candidates provided interview questions, assess their responses.
 Begin the conversation with a friendly introduction, setting a relaxed yet professional tone. Example:
-"Hey there! Welcome to your `+interviewInfo?.interviewData?.jobPosition+` interview. Let’s get started with a few questions!"
+"Hey there! Welcome to your `+interviewInfo?.jobPosition+` interview. Let’s get started with a few questions!"
 Ask one question at a time and wait for the candidate’s response before proceeding. Keep the questions clear and concise. Below Are the questions ask one by one:
 Questions: `+questionList+`
 If the candidate struggles, offer hints or rephrase the question without giving away the answer. Example:
@@ -69,9 +71,18 @@ Key Guidelines:
     },
 };
 
-  vapi.start(assistantOptions);
+  await vapi.start(assistantOptions);
   }
 
+  vapi.on("call-start",()=> {
+    toast.success("Call Connected...");
+    
+})
+
+vapi.on("speech-start",()=> {
+  toast.success("Voice connected...");
+  
+})
   const stopInterview=()=>{
     vapi.stop();
   }
