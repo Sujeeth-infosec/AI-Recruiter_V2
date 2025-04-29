@@ -3,99 +3,55 @@ import React from 'react'
 import { supabase } from '@/services/supabaseClient'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { DotLottieReact } from '@lottiefiles/dotlottie-react'
-import { Typewriter } from 'react-simple-typewriter'
+import { MoveRight } from 'lucide-react'
 
-
-
-function Login() {
-
-  // Function to handle Google sign-in
+export default function Login() {
   const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-    })
-
-    if (error) {
-      console.log('Error:', error.message)
-    }
+    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' })
+    if (error) console.error('Login Error:', error.message)
   }
 
   return (
-    <div className="flex h-screen bg-gradient-to-b from-blue-300 to-white  ">
-      {/* Left Section (Login Section) */}
-      <div className="flex justify-center items-center w-3/4 ">
-      <div className=" flex flex-col justify-center items-center w-3/4  p-10 shadow-xl bg-beige-100 rounded-2xl ">
-        {/* Logo */}
-        {/* <DotLottieReact
-      src="animations/ai.lottie"
-      loop
-      autoplay
-      style={{ width: "100%", height: "200px" }}
+    <div className="min-h-screen bg-[#f6f9ff] flex items-center justify-center px-6">
+      <div className="w-full max-w-5xl bg-white rounded-3xl shadow-2xl flex overflow-hidden">
+        {/* Left Section - Hero Text */}
+        <div className="w-1/2 flex flex-col justify-center px-12 py-16 bg-gradient-to-b from-white to-blue-50">
+          <div className="mb-8">
+            <Image src="/logo.jpeg" alt="Logo" width={300} height={300} />
+          </div>
+          <h1 className="text-4xl font-extrabold text-blue-700 leading-snug">
+            AI-Powered <br /> Hiring Begins Here
+          </h1>
+          <p className="text-gray-600 mt-4">
+            Start your recruitment journey with smart screening, matching, and deep AI analytics.
+          </p>
+        </div>
 
-    /> */}
-        {/* <Image src={"/8.png"} alt="Logo" width={200} height={200} className="mb-6 mt-8" /> */}
+        {/* Right Section - Auth Card */}
+        <div className="w-1/2 p-12 flex flex-col justify-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-3">Sign in to Continue</h2>
+          <p className="text-gray-500 mb-8">Use your Google account to access the dashboard.</p>
 
-        <Image src={"/agent.png"} alt="Logo" width={300} height={400} className="mb-4 mt-2" />
+          <Button
+            onClick={signInWithGoogle}
+            className="bg-blue-600 hover:bg-blue-700 text-white w-full py-4 rounded-xl text-md font-semibold transition-all flex items-center justify-center gap-2"
+          >
+            Sign in with Google
+            <MoveRight size={20} />
+          </Button>
 
-
-        {/* Content Section */}
-        <h2 className="  text-5xl font-extrabold text-center text-gray-800 tracking-wide mt-5 ">
-          Welcome to<span className=" rounded-xl text-gray-800 p-2 py-1 ">AI Recruiter</span>
-        </h2>
-        <p className="text-gray-600 text-center mt-8 text-lg">
-          <Typewriter
-            words={["Sign in With Google Authentication"]}
-            typeSpeed={60}
-          />
-        </p>
-        <Button
-          className="mt-10 mb-8 w-full  text-lg from-green-400 to-blue-500 text-white font-semibold py-6 px-6 rounded-full shadow-lg hover:shadow-2xl transform hover:scale-110 transition-transform duration-500"
-          onClick={signInWithGoogle}
-        >
-          Login with Google
-        </Button>
-      </div>
-      </div>
-
-      {/* Right Section (Great Hire Section) */}
-      <div className="flex flex-col justify-center items-start w-1/2 pl-20">
-        {/* <h2 className="text-8xl font-bold ">
-          <span>Great</span>
-          <span className="text-blue-700">Hire</span>
-        </h2> */}
-         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mt-6 font-[Oswald]">
-            <span style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)" }}>
-              <Typewriter
-                words={["Great"]}
-                loop={true}
-                typeSpeed={200}
-                deleteSpeed={100}
-                cursor={false}
-              />
-            </span>
-            <span
-              className="text-blue-700"
-              style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.4)" }}
-            >
-              <Typewriter
-                words={["Hire"]}
-                typeSpeed={50}
-                delaySpeed={500}
-                cursor={false}
-              />
-            </span>
-          </h1> 
-        <p className="text-2xl text-gray-700 mt-5 ">
-        <Typewriter
-            words={["Welcome to the future of recruitment powered by AI."]}
-            typeSpeed={60}
-            cursor
-          />
-        </p>
+          <p className="text-xs text-gray-400 mt-6 text-center">
+            By continuing, you agree to our{' '}
+            <a href="#" className="underline">
+              Terms
+            </a>{' '}
+            and{' '}
+            <a href="#" className="underline">
+              Privacy Policy
+            </a>.
+          </p>
+        </div>
       </div>
     </div>
   )
 }
-
-export default Login
