@@ -14,11 +14,12 @@ function Interview() {
   const interview_id = params?.interview_id;
     console.log(interview_id)
   const [interviewData, setInterviewData] = useState();
-  const [userName, setUserName] = useState([]);
+  const [userName, setUserName] = useState();
   const [userEmail,SetuserEmail] = useState();
   const [loading, setLoading] = useState(false);
-  const context = useContext(InterviewDataContext);
-  const [interviewInfo, setInterviewInfo] = useState(context);
+  const { interviewInfo, setInterviewInfo } = useContext(InterviewDataContext);
+  // const context = useContext(InterviewDataContext);
+  // const [interviewInfo, setInterviewInfo] = useState(context);
 
   // Directly use useRouter inside the component, no need for dynamic import
   const router = useRouter();
@@ -38,10 +39,10 @@ function Interview() {
     try {
       console.log(userName)
       console.log("Fetching interview details for interview_id:", interview_id);
-      await supabase.from('Interviews').update({ candidate_name: userName[0] }).eq('interview_id', interview_id).select()
+      await supabase.from('Interviews').update({ candidate_name: userName}).eq('interview_id', interview_id).select()
       const { data: Interviews, error } = await supabase
         .from('Interviews')
-        .select('jobPosition, jobDescription, duration, type')
+        .select('jobPosition, jobDescription, duration, type, questionList')
         .eq('interview_id', interview_id);
 
       if (error) {
@@ -67,7 +68,11 @@ function Interview() {
       return;
     }
 
-    await supabase.from('Interviews').update({ candidate_name: userName}).eq('interview_id', interview_id).select()
+    await supabase.from('Interviews')
+    .update({ candidate_name: userName})
+    .eq('interview_id', interview_id)
+    .select()
+    
     const { data: Interviews, error } = await supabase
       .from('Interviews')
       .select('*')
@@ -107,7 +112,7 @@ function Interview() {
           <Input
             placeholder="e.g. Sujeeth Kumar"
             value={userName}
-            onChange={(event) => setUserName([event.target.value])}
+            onChange={(event) => setUserName(event.target.value)}
           />
         </div>
 
@@ -116,7 +121,7 @@ function Interview() {
           <Input
             placeholder="e.g. Sujeethkumar@gmail.com"
             value={userEmail}
-            onChange={(event) => SetuserEmail([event.target.value])}
+            onChange={(event) => SetuserEmail(event.target.value)}
           />
         </div>
 

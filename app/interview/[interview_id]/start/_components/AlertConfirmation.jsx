@@ -13,7 +13,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 
-const AlertConfirmation = ({ children, stopInterviewMethod }) => {
+const AlertConfirmation = ({ children, stopInterview }) => {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -28,7 +28,7 @@ const AlertConfirmation = ({ children, stopInterviewMethod }) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    {/* <AlertDialogAction onClick={()=> stopInterviewMethod()}>Continue</AlertDialogAction> */}
+                    <AlertDialogAction onClick={()=> stopInterview()}>Continue</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
