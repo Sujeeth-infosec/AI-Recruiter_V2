@@ -6,13 +6,16 @@ import Image from 'next/image';
 import React, { useContext, useEffect, useState } from 'react';
 import Vapi from "@vapi-ai/web";
 import AlertConfirmation from './_components/AlertConfirmation';
+import axios from 'axios';
 import { toast } from 'sonner';
+import { FEEDBACK_PROMPT } from '@/services/Constants';
 
 
 function StartInterview() {
   const { interviewInfo, setInterviewInfo } = useContext(InterviewDataContext);
   const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY);
   const [activeUser, setActiveUser] = useState(false);
+  const [conversation, setConversation] = useState();
 
   useEffect(()=>{
     console.log(interviewInfo);
@@ -47,7 +50,7 @@ function StartInterview() {
   You are an AI voice assistant conducting interviews.
 Your job is to ask candidates provided interview questions, assess their responses.
 Begin the conversation with a friendly introduction, setting a relaxed yet professional tone. Example:
-"Hey there! Welcome to your `+interviewInfo?.jobPosition+` interview. Let’s get started with a few questions!"
+"Hey there! Welcome to your `+interviewInfo?.jobPosition+` interview. Introduce youself and ask the candidate a few questions. Let’s get started with a few questions!"
 Ask one question at a time and wait for the candidate’s response before proceeding. Keep the questions clear and concise. Below Are the questions ask one by one:
 Questions: `+questionList+`
 If the candidate struggles, offer hints or rephrase the question without giving away the answer. Example:
@@ -75,14 +78,44 @@ Key Guidelines:
   }
 
   vapi.on("call-start",()=> {
-    toast.success("Call Connected...");
+    console.log("Call started...");
     
 })
 
-vapi.on("speech-start",()=> {
-  toast.success("Voice connected...");
+  vapi.on("speech-start",()=> {
+    console.log("Voice connected...");
   
 })
+
+  vapi.on("speech-end", () => {
+    console.log("Assistant speech has ended.");
+})
+
+  vapi.on("call-end", () => {
+    console.log("Call has ended.");
+    GenerateFeedback();
+});
+
+// Various assistant messages can come back (like function calls, transcripts, etc)
+vapi.on("message", (message) => {
+  console.log(message?.conversation);
+  setConversation(message?.conversation);
+});
+
+const GenerateFeedback = async() => {
+  const result=await axios.post('/api/ai-feedback', { 
+    conversation : conversation 
+  });
+  console.log(result);
+
+  console.log(result?.data);
+  const Content=result?.data?.Content;
+  const FINAL_CONTENT=Content.replace('```json', '').replace('```', '');
+  console.log(FINAL_CONTENT);
+  //save to database
+
+}
+
   const stopInterview=()=>{
     vapi.stop();
   }
