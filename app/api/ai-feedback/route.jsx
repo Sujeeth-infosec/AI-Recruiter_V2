@@ -1,10 +1,12 @@
 import OpenAI from "openai";
 import { FEEDBACK_PROMPT } from "@/services/Constants";
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
     const { conversation } = await req.json();
-    const FINAL_PROMPT = FEEDBACK_PROMPT.replace('{{conversation}}', conversation);
-    console.log(FINAL_PROMPT);
+    console.log(typeof conversation);
+    const FINAL_PROMPT = FEEDBACK_PROMPT.replace("{{conversation}}", JSON.stringify(conversation));
+    // console.log(FINAL_PROMPT);
     try {
         const openai = new OpenAI({
             baseURL: "https://openrouter.ai/api/v1",
@@ -15,10 +17,10 @@ export async function POST(req) {
             messages: [
                 { role: "user", content: FINAL_PROMPT }
             ],
-            responseformat: 'json'
+            // responseformat: 'json'
         })
-        console.log(completion.choices[0].message)
-        return NextResponse.json(completion.choices[0].message)
+        console.log(completion?.choices[0]?.message)
+        return NextResponse.json(completion?.choices[0]?.message)
     } catch (e) {
         console.error(e);
         return NextResponse.json(e);
