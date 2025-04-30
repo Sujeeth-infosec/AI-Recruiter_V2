@@ -12,7 +12,8 @@ import TimmerComponent from "./_components/TimmerComponent";
 import { getVapiClient } from "@/lib/vapiconfig";
 import { supabase } from "@/services/supabaseClient";
 import { useParams } from "next/navigation";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 function StartInterview() {
   const { interviewInfo, setInterviewInfo } = useContext(InterviewDataContext);
@@ -152,16 +153,17 @@ Key Guidelines:
       .from("interview-feedback")
       .insert([
         {
-          userName: interviewInfo?.userName,
+          userName: interviewInfo?.candidate_name,
           userEmail: interviewInfo?.userEmail,
-          interview_id: interviewInfo?.interview_id,
-          feedback: JSON.stringify(FINAL_CONTENT),
-          recommended: false,
+          interview_id: interview_id,
+          feedback: JSON.parse(FINAL_CONTENT),
+          // conversation: conversation.current,
+          recommended: true,
         },
       ])
+      .eq("interview_id", interview_id)  // <- this line is required!
       .select();
-      console.log("feedback", data);
-      router.replace("/interview/completed");
+    router.replace("/interview/" + interviewInfo?.interview_id + "/completed");
   };
 
   const stopInterview = () => {

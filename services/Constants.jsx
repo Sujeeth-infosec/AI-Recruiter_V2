@@ -101,17 +101,17 @@ for hire or not with msg. Give me response in JSON format
 
         rating:{
 
-            techicalSkills:5,
+            TechicalSkills:5,
 
-            communication:6,
+            Communication:6,
 
-            problemSolving:4,
+            ProblemSolving:4,
 
-            experince:7
+            Experince:7
 
             Behavioral:8
 
-            thinking:9
+            Thinking:9
 
 
 
@@ -121,7 +121,7 @@ for hire or not with msg. Give me response in JSON format
 
         Recommendation:'',
 
-        RecommendationMsg:''
+        Recommendation Message:''
 
 
 
