@@ -65,7 +65,7 @@ Your job is to ask candidates provided interview questions, assess their respons
 Begin the conversation with a friendly introduction, setting a relaxed yet professional tone. Example:
 "Hey there! Welcome to your ` +
               interviewInfo?.jobPosition +
-              ` interview. Introduce youself and ask the candidate a few questions. Let’s get started with a few questions!"
+              ` interview. Introduce youself and ask the candidate a self-introduction question. Then ask a few questions. Let’s get started with a few questions!"
 Ask one question at a time and wait for the candidate’s response before proceeding. Keep the questions clear and concise. Below Are the questions ask one by one:
 Questions: ` +
               questionList +
