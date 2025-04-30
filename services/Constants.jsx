@@ -52,7 +52,7 @@ export const InterviewType=[
 ]
 
 export const QUESTIONS_PROMPT=`You are an expert technical interviewer.
-Based on the following inputs, generate a well-structured list of high-quality interview questions:
+Based on the following inputs, generate a well-structured list of high-quality interview questions including candidate introduction, salary negotiation, and closing questions.
 
 Job Title: {{jobTitle}}
 
