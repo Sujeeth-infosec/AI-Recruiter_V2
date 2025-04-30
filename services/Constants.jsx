@@ -68,7 +68,7 @@ Analyze the job description to identify key responsibilities, required skills, a
 
 Generate a list of interview questions depends on interview duration
 
-Adjust the number and depth of questions to match the interview duration.
+Adjust the number and depth of questions to match the interview duration or more.
 
 Ensure the questions match the tone and structure of a real-life {{type}} interview.
 
@@ -76,7 +76,7 @@ Ensure the questions match the tone and structure of a real-life {{type}} interv
 format: interviewQuestions=[
 {
  question:'',
- type:'Technical/Behavioral/Experince/Problem Solving/Leadership'
+ type:' Candidate Introduction/Why Should we hire you/salary negotiation/Technical/Behavioral/Experience/Problem Solving/Leadership'
 },{
 ...
 }]
