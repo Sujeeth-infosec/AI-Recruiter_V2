@@ -10,6 +10,9 @@ import axios from "axios";
 import { FEEDBACK_PROMPT } from "@/services/Constants";
 import TimmerComponent from "./_components/TimmerComponent";
 import { getVapiClient } from "@/lib/vapiconfig";
+import { supabase } from "@/services/supabaseClient";
+import { useParams } from "next/navigation";
+import { useRouter } from "next/router";
 
 function StartInterview() {
   const { interviewInfo, setInterviewInfo } = useContext(InterviewDataContext);
@@ -18,6 +21,8 @@ function StartInterview() {
   // const [conversation, setConversation] = userState();
   const [start, setStart] = useState(false);
   const conversation = useRef(null);
+  const { interview_id } = useParams();
+  const router = useRouter();
 
   useEffect(() => {
     console.log(interviewInfo);
@@ -131,7 +136,7 @@ Key Guidelines:
   });
 
   const GenerateFeedback = async () => {
-    console.log('conversation',conversation.current);
+    console.log("conversation", conversation.current);
     const result = await axios.post("/api/ai-feedback", {
       conversation: conversation.current,
     });
@@ -139,9 +144,24 @@ Key Guidelines:
 
     console.log(result?.data);
     const Content = result?.data?.content;
-    const FINAL_CONTENT = Content.replace("```json", '').replace("```", '');
+    const FINAL_CONTENT = Content.replace("```json", "").replace("```", "");
     console.log(FINAL_CONTENT);
     //save to database
+
+    const { data, error } = await supabase
+      .from("interview-feedback")
+      .insert([
+        {
+          userName: interviewInfo?.userName,
+          userEmail: interviewInfo?.userEmail,
+          interview_id: interviewInfo?.interview_id,
+          feedback: JSON.stringify(FINAL_CONTENT),
+          recommended: false,
+        },
+      ])
+      .select();
+      console.log("feedback", data);
+      router.replace("/interview/completed");
   };
 
   const stopInterview = () => {
