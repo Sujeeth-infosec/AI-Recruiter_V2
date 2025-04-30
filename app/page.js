@@ -82,7 +82,7 @@ export default function Home() {
           <div className="mt-12">
             <Button
               size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white group px-8 py-6 text-lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white group px-8 py-6 text-lg cursor-pointer"
               onClick={() => router.push('/dashboard')} // Example navigation
             >
               Start Recruiting
