@@ -109,6 +109,12 @@ for hire or not with msg. Give me response in JSON format
 
             experince:7
 
+            Behavioral:8
+
+            thinking:9
+
+
+
         },
 
         summery:<in 3 Line>,
