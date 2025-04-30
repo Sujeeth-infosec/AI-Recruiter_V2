@@ -76,7 +76,7 @@ Ensure the questions match the tone and structure of a real-life {{type}} interv
 format: interviewQuestions=[
 {
  question:'',
- type:' Candidate Introduction/Why Should we hire you/salary negotiation/Technical/Behavioral/Experience/Problem Solving/Leadership'
+ type:' Candidate Introduction/Candidate home location and working location/Why Should we hire you/salary negotiation/Technical/Behavioral/Experience/Problem Solving/Leadership'
 },{
 ...
 }]
