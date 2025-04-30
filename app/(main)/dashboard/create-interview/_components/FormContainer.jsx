@@ -92,9 +92,9 @@ console.log(interviewType);
           ))}
         </div>
       </div>
-      <div className="mt-7 flex justify-end" onClick={() =>GoToNext() }>
+      <div className="mt-7 flex justify-end " onClick={() =>GoToNext() }>
         <Button>
-          Generate Question <ArrowRight className="ml-2" />
+          Generate Question <ArrowRight className="ml-2 cursor-pointer" />
         </Button>
       </div>
     </div>
