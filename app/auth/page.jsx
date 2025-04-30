@@ -94,7 +94,7 @@ export default function Login() {
 
               <Button
                 onClick={signInWithGoogle}
-                className="w-full py-3 px-4 inline-flex justify-center items-center gap-3 rounded-xl font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-sm"
+                className="w-full py-3 px-4 inline-flex justify-center items-center gap-3 rounded-xl font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-sm cursor-pointer "
               >
                 <Image 
                   src="/googleicon.png" 

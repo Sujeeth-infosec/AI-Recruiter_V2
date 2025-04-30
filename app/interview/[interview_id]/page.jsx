@@ -138,11 +138,13 @@ function Interview() {
         </div>
 
         <Button
-          className="mt-6 w-full font-bold flex items-center justify-center gap-2"
+          className="mt-6 w-full font-bold flex items-center justify-center gap-2 cursor-pointer"
           disabled={loading || !userName}
           onClick={onJoinInterview}
         >
-          <Video className="w-4 h-4" /> Join Interview
+          {/* open from chrome or edge browser notify */}
+          
+          <Video className="w-4 h-4 " /> Join Interview
         </Button>
       </div>
     </div>
