@@ -76,7 +76,7 @@ Ensure the questions match the tone and structure of a real-life {{type}} interv
 format: interviewQuestions=[
 {
  question:'',
- type:' Candidate Introduction/Candidate home location and working location/Why Should we hire you/salary negotiation/Technical/Behavioral/Experience/Problem Solving/Leadership'
+ type:'Candidate selfIntroduction about education background, work experience/Candidate home and working locations/worked previous and current working company/Why Should we hire you/Present salary negotiation/Technical/Behavioral/Experience/Problem Solving/Leadership'
 },{
 ...
 }]
@@ -101,17 +101,17 @@ for hire or not with msg. Give me response in JSON format
 
         rating:{
 
-            techicalSkills:5,
+            TechicalSkills:5,
 
-            communication:6,
+            Communication:6,
 
-            problemSolving:4,
+            ProblemSolving:4,
 
-            experince:7
+            Experience:7,
 
-            Behavioral:8
+            Behavioral:8,
 
-            thinking:9
+            Analysis:9
 
 
 
@@ -121,7 +121,7 @@ for hire or not with msg. Give me response in JSON format
 
         Recommendation:'',
 
-        RecommendationMsg:''
+        Recommendation Message:''
 
 
 

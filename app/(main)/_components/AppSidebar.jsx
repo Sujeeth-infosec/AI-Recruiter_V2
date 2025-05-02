@@ -37,7 +37,7 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <div className="px-4">
-        <Button className="w-full mt-2" onClick={() => router.push('/dashboard/create-interview')}>
+        <Button className="w-full mt-2 cursor-pointer" onClick={() => router.push('/dashboard/create-interview')}>
           <Plus className="mr-2" />
           Create New Interview
         </Button>
