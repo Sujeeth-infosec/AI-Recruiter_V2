@@ -6,10 +6,14 @@ import { toast } from "sonner";
 import Link from "next/link";
 
 function InterviewCard({ interview, viewDetail = false }) {
+  const getInterviewUrl = () => {
+    const baseUrl = process.env.NEXT_PUBLIC_HOST_URL.replace(/\/$/, "");
+    return `${baseUrl}/interview/${interview?.interview_id}`;
+  };
+
   const copyLink = async () => {
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_HOST_URL.replace(/\/$/, "");
-      const url = `${baseUrl}/interview/${interview?.interview_id}`;
+      const url = getInterviewUrl();
       await navigator.clipboard.writeText(url);
       toast.success("Interview link copied!");
     } catch (err) {
@@ -19,10 +23,9 @@ function InterviewCard({ interview, viewDetail = false }) {
   };
 
   const onSend = () => {
-    window.location.href =
-      "mailto:Sujeethkumararjun@gmail.com?subject=AI Recruiter Interview Link&body=Hi, I would like to schedule an interview with you. Please find the link below:\n\n" +
-      `${process.env.NEXT_PUBLIC_HOST_URL}/interview/${interview?.interview_id}`;
-    toast.success("Email sent!");
+    const interviewUrl = getInterviewUrl();
+    window.location.href = `mailto:?subject=AI Recruiter Interview Link&body=Hi, I would like to schedule an interview with you. Please find the link below:\n\n${interviewUrl}`;
+    toast.success("Email opened with pre-filled link!");
   };
 
   return (
