@@ -14,6 +14,7 @@ import { supabase } from "@/services/supabaseClient";
 import { useParams } from "next/navigation";
 // import { useRouter } from "next/router";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 function StartInterview() {
   const { interviewInfo, setInterviewInfo } = useContext(InterviewDataContext);
@@ -23,6 +24,7 @@ function StartInterview() {
   const [start, setStart] = useState(false);
   const conversation = useRef(null);
   const { interview_id } = useParams();
+  const [loading, setLoading] = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -100,41 +102,48 @@ Key Guidelines:
   };
 
   useEffect(() => {
-    if (!vapi) {
-      console.error("Vapi instance not found", vapi);
-      return;
-    }
+    const handleMessage = (message) => {
+        // console.log("message", message);
+        // console.log(message?.conversation);
+        if (message && message?.conversation) {
+            const filteredConversation = message.conversation.filter((msg) => msg.role !== "system") || "";
+            const conversationString = JSON.stringify(filteredConversation, null, 2);
+            // console.log('conversationString', conversationString);
+            conversation.current = conversationString;
+        }
+    };
+
+    vapi.on("message", handleMessage);
     vapi.on("call-start", () => {
       console.log("Call started...");
-    });
 
+      toast('Call started...');
+    });
     vapi.on("speech-start", () => {
       console.log("Voice connected...");
+      setActiveUser(false);
+      toast('Voice connected...');
     });
-
     vapi.on("speech-end", () => {
       console.log("Assistant speech has ended.");
+      setActiveUser(true);
+      
     });
-
     vapi.on("call-end", () => {
       console.log("Call has ended.");
+      toast('Call has ended.Please Wait...');
       GenerateFeedback();
     });
-  }, [vapi]);
 
-  // Various assistant messages can come back (like function calls, transcripts, etc)
-  vapi.on("message", (message) => {
-    // console.log("message", message);
-    // console.log(message?.conversation);
-    // setConversation(message?.conversation);
-    if (message && message?.conversation) {
-      const filteredConversation =
-        message?.conversation.filter((msg) => msg.role !== "system") || "";
-      const conversationString = JSON.stringify(filteredConversation, null, 2);
-      // console.log('conversationString', conversationString);
-      conversation.current = conversationString;
-    }
-  });
+    return () => {
+        // Remove the event listener on cleanup, if vapi.off exists.
+        vapi.off("message", handleMessage);
+        vapi.off("call-start", () => console.log("END"));
+        vapi.off("speech-start", () => console.log("END"));
+        vapi.off("speech-end", () => console.log("END"));
+        vapi.off("call-end", () => console.log("END"));
+    };
+}, [vapi]);
 
   const GenerateFeedback = async () => {
     console.log("conversation", conversation.current);
@@ -158,7 +167,7 @@ Key Guidelines:
           interview_id: interview_id,
           feedback: JSON.parse(FINAL_CONTENT),
           // conversation: conversation.current,
-          recommended: true,
+          recommended: false
         },
       ])
       .eq("interview_id", interview_id)  // <- this line is required!
@@ -205,7 +214,7 @@ Key Guidelines:
               <span className="absolute inset-0 rounded-full bg-blue-500 opacity-75 animate-ping"></span>
             )}
             <h2 className="font-bold text-2xl bg-primary p-5 rounded-full">
-              {interviewInfo?.userName}
+              {interviewInfo?.userName ? interviewInfo.userName.charAt(0) : ""}
             </h2>
             <h2>{interviewInfo?.userName}</h2>
           </div>
