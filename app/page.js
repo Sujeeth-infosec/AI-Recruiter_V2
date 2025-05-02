@@ -1,5 +1,6 @@
 'use client';
 import Image from "next/image";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Brain, Users, Sparkles, Target, BarChart2, Clock, Zap, Check, Search, FileText, ShieldCheck, Award, Briefcase } from "lucide-react";
