@@ -1,16 +1,50 @@
 'use client';
 import Image from "next/image";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Brain, Users, Sparkles, Target, BarChart2, Clock, Zap, Check, Search, FileText, ShieldCheck, Award, Briefcase } from "lucide-react";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { supabase } from "@/services/supabaseClient";
 
 export default function Home() {
   const router = useRouter();
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+
+  const signInWithGoogle = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({ 
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/dashboard`
+      }
+    });
+    if (error) console.error(error.message);
+  };
+
+  useEffect(() => {
+    // Check if user is already logged in
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        router.push('/dashboard');
+      }
+    };
+    
+    checkSession();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        router.push('/dashboard');
+      }
+    });
+
+    return () => {
+      if (authListener?.unsubscribe) {
+        authListener.unsubscribe();
+      }
+    };
+  }, [router]);
 
   const clientLogos = [
     { logo: "/clientLogos/tata.png" },
@@ -72,8 +106,6 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50/20 via-white to-indigo-50/20">
       {/* Floating Background Elements - More Dynamic */}
@@ -117,12 +149,13 @@ export default function Home() {
             <Button
               size="lg"
               className="bg-blue-600 hover:bg-blue-700 text-white group px-8 py-6 text-lg cursor-pointer"
-              onClick={() => router.push('/dashboard')} // Example navigation
+              onClick={signInWithGoogle} // Example navigation
             >
               Start Recruiting
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
+          
 
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
