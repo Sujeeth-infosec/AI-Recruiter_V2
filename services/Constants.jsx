@@ -107,11 +107,11 @@ for hire or not with msg. Give me response in JSON format
 
             ProblemSolving:4,
 
-            Experince:7
+            Experience:7,
 
-            Behavioral:8
+            Behavioral:8,
 
-            Thinking:9
+            Analysis:9
 
 
 
