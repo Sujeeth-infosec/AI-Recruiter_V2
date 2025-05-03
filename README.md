@@ -78,24 +78,13 @@ cd AI-Recruiter
 npm install
 ```
 
-Set up your `.env.local` file with:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
-OPENAI_API_KEY=your_openai_key
-VAPI_API_KEY=your_vapi_key
-DEEPGRAM_API_KEY=your_deepgram_key
-PLAYHT_API_KEY=your_playht_key
-```
-
 Then, start the development server:
 
 ```bash
 npm run dev
 ```
 
-Visit `http://localhost:3000` to access the application.
+Visit `https://ai-recruiter-pi.vercel.app/` to access the application.
 
 ---
 
