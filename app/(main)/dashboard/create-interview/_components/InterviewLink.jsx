@@ -30,24 +30,32 @@ const InterviewLink = ({ interview_id, formData }) => {
   };
 
   const shareVia = (platform) => {
+    const interviewTitle = formData?.title || 'AI Interview';
+    const defaultMessage = `Join my ${interviewTitle} interview: ${url}`;
+    const emailSubject = `Invitation to ${interviewTitle}`;
+    const emailBody = `Hello,\n\nI'd like to invite you to participate in my ${interviewTitle}.\n\nYou can access the interview here: ${url}\n\nLooking forward to your responses!`;
+    
     let shareUrl = '';
-    const message = `Join my AI interview: ${url}`;
     
     switch(platform) {
       case 'email':
-        window.location.href = `mailto:?subject=AI Interview Invitation&body=${encodeURIComponent(message)}`;
+        shareUrl = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+        window.location.href = shareUrl;
         break;
       case 'linkedin':
         shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
-        window.open(shareUrl, '_blank');
+        window.open(shareUrl, '_blank', 'width=600,height=400');
         break;
       case 'whatsapp':
-        shareUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+        shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(defaultMessage)}`;
         window.open(shareUrl, '_blank');
         break;
       default:
         break;
     }
+    
+    // Track sharing event if analytics are set up
+    // analytics.track('Interview Shared', { platform, interview_id });
   };
 
   return (
@@ -98,14 +106,14 @@ const InterviewLink = ({ interview_id, formData }) => {
       <div className='w-full bg-white p-5 rounded-lg'>
         <h2 className='font-bold'>Share via</h2>
         <div className='grid grid-cols-3 gap-5 mt-5'>
-          <Button variant='outline' onClick={() => shareVia('email')}>
-            <Mail className='size-4 mr-2' /> Email
+          <Button variant='outline' onClick={() => shareVia('email')} className="flex items-center gap-2">
+            <Mail className='size-4' /> Email
           </Button>
-          <Button variant='outline' onClick={() => shareVia('linkedin')}>
-            <Linkedin className='size-4 mr-2' /> LinkedIn
+          <Button variant='outline' onClick={() => shareVia('linkedin')} className="flex items-center gap-2">
+            <Linkedin className='size-4' /> LinkedIn
           </Button>
-          <Button variant='outline' onClick={() => shareVia('whatsapp')}>
-            <Phone className='size-4 mr-2' /> WhatsApp
+          <Button variant='outline' onClick={() => shareVia('whatsapp')} className="flex items-center gap-2">
+            <Phone className='size-4' /> WhatsApp
           </Button>
         </div>
       </div>
