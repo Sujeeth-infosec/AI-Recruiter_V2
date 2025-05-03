@@ -89,11 +89,11 @@ Depends on this Interview Conversation between assitant and user,
 
 Give me feedback for user interview. Give me rating out of 10 for technical Skills, 
 
-Communication, Problem Solving, Experince. Also give me summery in 3 lines 
+Communication, Problem Solving, Experience. Also give me summery in 3 lines 
 
-about the interview and one line to let me know whether is recommanded 
+about the interview and one line to let me know whether is recommended 
 
-for hire or not with msg. Give me response in JSON format
+for hire or not with message very strictly. Give me response in JSON format
 
 {
 
@@ -101,7 +101,7 @@ for hire or not with msg. Give me response in JSON format
 
         rating:{
 
-            TechicalSkills:5,
+            TechnicalSkills:5,
 
             Communication:6,
 

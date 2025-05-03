@@ -56,13 +56,6 @@ export default function Home() {
 
   const testimonials = [
     {
-      quote: "This platform reduced our hiring time by 80% while improving candidate quality.",
-      author: "Tanmai",
-      image: "/user Photos/Tanmai.jpeg",
-      role: "Hiring Manager, GreatHire",
-      avatar: "/avatar1.jpg"
-    },
-    {
       quote: "From intuitive front-end design to seamless backend integration, the site is a true showcase of full-stack excellence.",
       author: "Dhanshree",
       image: "/user Photos/Dhanshree.jpeg",
@@ -77,26 +70,12 @@ export default function Home() {
       avatar: "/avatar3.jpg"
     },
     {
-      quote: "Optimized through scalable cloud infrastructure, the site leverages AWS best practices for high availability and performance.",
-      author: "Charan",
-      image: "/user Photos/Charan.jpeg",
-      role: "Associate AWS Architect, GreatHire",
-      avatar: "/avatar2.jpg"
-    },
-    {
-      quote: "The backend is a model of efficiency—clean code, powerful APIs, and flawless data handling make everything run like clockwork.",
-      author: "Moiz",
-      image: "/user Photos/MoizImg.jpg",
-      role: "Backend Developer, GreatHire",
+      quote: "Built with security at its core, the site ensures robust protection against vulnerabilities while maintaining smooth performance.",
+      author: "Eswar",
+      image: "/user Photos/avatar.jpeg",
+      role: "Information Security Analyst, GlobalSoft",
       avatar: "/avatar3.jpg"
     },
-    {
-      quote: "Visually striking and pixel-perfect, the site offers a responsive, accessible, and user-centric experience across all devices.",
-      author: "Manoj",
-      image: "/user Photos/manoj.jpeg",
-      role: "Frontend Developer, GreatHire",
-      avatar: "/avatar3.jpg"
-    }
   ];
 
   useEffect(() => {
