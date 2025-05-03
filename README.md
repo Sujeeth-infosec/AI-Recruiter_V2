@@ -1,8 +1,6 @@
 ![{BFD63F0C-1F7F-487D-BB3E-27C576AA2205}](https://github.com/user-attachments/assets/bd11f95b-b190-47fa-9c0d-2005562e3c9b)
 
 
-Great! Here's the updated and complete `README.md` content with your GitHub repository link included:
-
 ---
 
 # 🤖 AI-Recruiter
