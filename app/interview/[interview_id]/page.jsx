@@ -93,8 +93,21 @@ function Interview() {
 
   return (
     <div className="px-10 md:px-28 lg:px-48 xl:px-80 mt-7">
+      {/* Logo Section - Improved Alignment */}
       <div className="flex flex-col items-center justify-center border rounded-lg bg-white p-7 lg:px-33 xl:px-52 mb-20">
-        <Image src="/logo.jpeg" alt="Logo" width={100} height={100} className="mb-4" />
+        {/* Logo Container with Consistent Spacing */}
+        <div className="w-full flex justify-center mb-4">
+          <Image 
+            src="/Suji.png" 
+            alt="Suji Logo" 
+            width={120} 
+            height={120}
+            className="w-[100px] md:w-[120px] object-contain" // Responsive sizing
+            priority
+          />
+        </div>
+        
+        {/* Rest of your content... */}
         <h2 className="text-xl font-semibold text-gray-800 text-center">AI-Powered Interview Platform</h2>
         <Image src="/interview.jpeg" alt="Interview" width={250} height={250} className="my-6" />
 
