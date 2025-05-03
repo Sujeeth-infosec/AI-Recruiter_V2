@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![{BFD63F0C-1F7F-487D-BB3E-27C576AA2205}](https://github.com/user-attachments/assets/bd11f95b-b190-47fa-9c0d-2005562e3c9b)
 
-## Getting Started
 
-First, run the development server:
+---
+
+# 🤖 AI-Recruiter
+
+**AI-Recruiter** is an AI-powered recruitment automation platform developed to streamline and enhance the hiring process. Leveraging state-of-the-art technologies like Large Language Models (LLMs), RAG (Retrieval-Augmented Generation), and voice AI, it offers recruiters and candidates a fully automated, intelligent, and voice-interactive interview experience.
+
+---
+
+## 🚀 Features
+
+* 🎯 **AI-Generated Interviews**: Automatically generates contextual and role-based interview questions.
+* 🗣️ **Voice Interviewing with AI**: Conducts interactive, human-like voice interviews powered by Vapi.ai.
+* 📊 **Recruiter Dashboard**: Manage job roles, questions, candidate sessions, and insights from a central dashboard.
+* 🔗 **Unique Interview Links**: Share interviews with candidates via unique, secure links.
+* 🤖 **Automated Evaluation**: AI evaluates candidate responses and generates performance summaries for recruiters.
+
+---
+
+## 🧑‍💼 User Workflows
+
+### ✅ Recruiter
+
+* Secure login via Supabase Auth (Google OAuth supported).
+* Create interview templates for different job roles.
+* View and analyze interview responses via a custom dashboard.
+* Share interview URLs with candidates.
+
+### 🎙️ Candidate
+
+* Receive a voice-interactive interview via a secure link.
+* Answer AI-generated questions in real time using voice.
+* Responses are recorded, transcribed (via Deepgram), and evaluated.
+
+---
+
+## 🏗️ Tech Stack
+
+| Layer              | Tech Used                                                                       |
+| ------------------ | ------------------------------------------------------------------------------- |
+| **Frontend**       | Next.js 15.2.4, React 18, Radix UI, Tailwind CSS                                |
+| **Animations**     | Framer Motion, Lottie                                                           |
+| **Voice AI**       | Vapi.ai (voice interaction), Deepgram (speech-to-text), PlayHT (text-to-speech) |
+| **Authentication** | Supabase Auth + Google OAuth                                                    |
+| **Backend DB**     | Supabase (PostgreSQL + Realtime)                                                |
+| **AI Integration** | OpenAI API for interview logic and assessments                                  |
+| **State Mgmt**     | React Context API                                                               |
+
+---
+
+## 📂 Folder Structure
+
+```
+AI-Recruiter/
+├── app/               # Main app components and routes
+├── public/            # Static assets
+├── services/          # API clients (e.g., Supabase)
+├── styles/            # Global styling and configuration
+├── .env.local         # Environment variables
+└── README.md          # Documentation
+```
+
+---
+
+## 🛠️ Getting Started
+
+To run this project locally:
+
+```bash
+git clone https://github.com/Sujeeth-infosec/AI-Recruiter.git
+cd AI-Recruiter
+npm install
+```
+
+Then, start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `https://ai-recruiter-pi.vercel.app/` to access the application.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📚 Documentation
 
-## Learn More
+For a comprehensive overview of the system, architecture, and workflows, refer to the official project documentation on [DeepWiki](https://deepwiki.com/Sujeeth-infosec/AI-Recruiter).
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🤝 Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Contributions are welcome! Please fork the repository, create a new branch, and submit a pull request with clear documentation of your changes.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📄 License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/Sujeeth-infosec/AI-Recruiter/blob/main/LICENSE) file for details.
+
+---
+
+Let me know if you’d like a badge section or deployment instructions (like Vercel).
