@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { toast } from "sonner";
 
 function CandidateFeedbackDialog({ candidate }) {
   // Safely extract and normalize feedback data
@@ -46,26 +45,6 @@ function CandidateFeedbackDialog({ candidate }) {
 
   // Determine recommendation status
   const isRecommended = !feedback?.Recommendation?.toLowerCase().includes('not');
-
-  const handleSendMessage = () => {
-    if (!candidate?.userEmail) {
-      toast.error("No email address available for this candidate");
-      return;
-    }
-
-    const subject = isRecommended 
-      ? "Congratulations! You've been selected for the next round" 
-      : "Update on Your Application Status";
-
-    const body = isRecommended
-      ? `Dear ${candidate.userName},\n\nWe're pleased to inform you that you've been selected to proceed to the next round of interviews for the position. Our team will contact you shortly to schedule the next steps.\n\nBest regards,\nThe Hiring Team`
-      : `Dear ${candidate.userName},\n\nThank you for your time and effort in the interview process. After careful consideration, we've decided to move forward with other candidates at this time. We appreciate your interest in our company and wish you the best in your job search.\n\nBest regards,\nThe Hiring Team`;
-
-    const mailtoLink = `mailto:${candidate.userEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-    window.location.href = mailtoLink;
-    toast.success(`Email draft opened for ${candidate.userEmail}`);
-  };
 
   return (
     <Dialog>
@@ -143,14 +122,13 @@ function CandidateFeedbackDialog({ candidate }) {
                     <h2 className={`font-medium text-lg ${
                       isRecommended ? 'text-green-700' : 'text-red-700'
                     }`}>
-                      {isRecommended ? 'Recommended for Next Round' : 'Not Selected'}
+                      {feedback?.Recommendation || 'Recommendation to Hire'}
                     </h2>
                     <p className="mt-2 whitespace-pre-wrap text-gray-700">
                       {recommendationMessage}
                     </p>
                   </div>
                   <Button 
-                    onClick={handleSendMessage}
                     variant={isRecommended ? "default" : "destructive"} 
                     className={`ml-4 ${isRecommended ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}
                   >
