@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -8,29 +7,63 @@ const PLANS = [
   {
     id: 'basic',
     name: 'Basic Plan',
-    price: 300,
-    features: ['Feature 1', 'Feature 2', 'Basic Support'],
-    popular: false,
-  },
-  {
-    id: 'advanced',
-    name: 'Advanced Plan',
-    price: 600,
-    features: ['All Basic Features', 'Feature 3', 'Feature 4', 'Priority Support'],
-    popular: true,
-  },
-  {
-    id: 'enterprise',
-    name: 'Enterprise Plan',
-    price: 1000,
+    price: 2500,
     features: [
-      'All Advanced Features',
-      'Feature 5',
-      'Feature 6',
-      '24/7 Dedicated Support',
-      'Custom Solutions',
+      'Access to Basic Features',
+      'Email Support',
+      'Community Access',
+      'Basic Analytics',
+      'Single User License',
     ],
     popular: false,
+    color: 'bg-blue-50',
+    textColor: 'text-blue-600',
+  },
+  {
+    id: 'Pro',
+    name: 'Advanced Plan',
+    price: 5000,
+    features: [
+      'All Basic Features',
+      'Priority Email Support',
+      'Advanced Analytics',
+      'Multi-User License (Up to 5 Users)',
+      'Customizable Dashboards',
+    ],
+    popular: true,
+    color: 'bg-purple-50',
+    textColor: 'text-purple-600',
+  },
+  {
+    id: 'Enterprise',
+    name: 'Enterprise Plan',
+    price: 7500,
+    features: [
+      'All Advanced Features',
+      '24/7 Dedicated Support',
+      'Custom Solutions',
+      'Unlimited User License',
+      'Integration with Third-Party Tools',
+      'Dedicated Account Manager',
+    ],
+    popular: false,
+    color: 'bg-green-50',
+    textColor: 'text-green-600',
+  },
+  {
+    id: 'Custom',
+    name: 'Custom Plan',
+    price: 'Custom', // Updated price
+    features: [
+      'All Enterprise Features',
+      'Dedicated Account Manager',
+      'Custom Integrations',
+      'Unlimited API Access',
+      'Priority 24/7 Support',
+    ],
+    popular: true, // Marked as popular
+    color: 'bg-yellow-50', // Updated color
+    textColor: 'text-yellow-600', // Updated text color
   },
 ];
 
@@ -42,6 +75,7 @@ export default function Billing() {
     phone: '',
   });
   const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState('monthly');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -107,7 +141,7 @@ export default function Billing() {
           contact: formData.phone,
         },
         theme: {
-          color: '#3399cc',
+          color: '#6366f1',
         },
       };
 
@@ -125,43 +159,86 @@ export default function Billing() {
     <>
       <Head>
         <script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
+        <title>Choose Your Plan | Your Company</title>
+        <meta name="description" content="Select the perfect plan for your needs" />
       </Head>
 
-      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-3xl font-bold text-gray-900">Choose Your Plan</h1>
-            <p className="mt-4 text-lg text-gray-600">
-              Select the plan that works best for your needs
+          {/* Header */}
+          <div className="text-center mb-16">
+            <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+              Simple, transparent pricing
+            </h1>
+            <p className="mt-5 max-w-xl mx-auto text-xl text-gray-500">
+              Choose the perfect plan for your business needs
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          {/* Billing toggle */}
+          <div className="flex justify-center mb-12">
+            <div className="inline-flex rounded-md shadow-sm">
+              <button
+                type="button"
+                onClick={() => setActiveTab('monthly')}
+                className={`px-6 py-3 text-sm font-medium rounded-l-lg ${
+                  activeTab === 'monthly'
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                Monthly Billing
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('yearly')}
+                className={`px-6 py-3 text-sm font-medium rounded-r-lg ${
+                  activeTab === 'yearly'
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                Yearly Billing (Save 20%)
+              </button>
+            </div>
+          </div>
+
+          {/* Plans */}
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
             {PLANS.map((plan) => (
               <div
                 key={plan.id}
-                className={`relative rounded-lg border border-gray-200 bg-white shadow-sm flex flex-col ${
-                  plan.popular ? 'ring-2 ring-indigo-500' : ''
+                className={`relative rounded-xl border border-gray-200 bg-white shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col h-full ${
+                  plan.popular ? 'ring-2 ring-indigo-500 md:-mt-2 md:mb-2' : ''
                 }`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-indigo-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                      Most Popular
-                    </span>
+                  <div className="absolute top-0 right-0 bg-indigo-500 text-white text-xs font-semibold px-3 py-1 rounded-bl-lg">
+                    Most Popular
                   </div>
                 )}
-                <div className="p-6 flex-1">
-                  <h2 className="text-lg font-semibold text-gray-900">{plan.name}</h2>
-                  <p className="mt-4 text-3xl font-bold text-gray-900">
-                    ₹{plan.price}
-                    <span className="text-base font-normal text-gray-500">/month</span>
+                <div className={`p-6 ${plan.color}`}>
+                  <h2 className={`text-lg font-semibold ${plan.textColor}`}>{plan.name}</h2>
+                  <p className="mt-2 flex items-baseline">
+                    <span className="text-4xl font-extrabold text-gray-900">
+                      ₹{activeTab === 'yearly' ? Math.floor(plan.price * 12 * 0.8) : plan.price}
+                    </span>
+                    <span className="ml-1 text-lg font-medium text-gray-500">
+                      /{activeTab === 'yearly' ? 'year' : 'month'}
+                    </span>
                   </p>
-                  <ul className="mt-6 space-y-3">
+                  {activeTab === 'yearly' && (
+                    <p className="mt-1 text-sm text-gray-500">
+                      <span className="line-through">₹{plan.price * 12}</span> (Save 20%)
+                    </p>
+                  )}
+                </div>
+                <div className="p-6 flex-grow flex flex-col">
+                  <ul className="space-y-4 flex-grow">
                     {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-center">
+                      <li key={feature} className="flex items-start">
                         <svg
-                          className="h-5 w-5 text-indigo-500"
+                          className={`h-5 w-5 flex-shrink-0 ${plan.textColor}`}
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -171,89 +248,207 @@ export default function Billing() {
                             clipRule="evenodd"
                           />
                         </svg>
-                        <span className="ml-3 text-gray-600">{feature}</span>
+                        <span className="ml-3 text-gray-700">{feature}</span>
                       </li>
                     ))}
                   </ul>
-                </div>
-                <div className="p-6 border-t border-gray-200">
-                  <button
-                    onClick={() => setSelectedPlan(plan)}
-                    className={`w-full py-2 px-4 border rounded-md font-medium ${
-                      plan.id === selectedPlan.id
-                        ? 'bg-indigo-600 text-white border-indigo-600'
-                        : 'bg-white text-indigo-600 border-indigo-600 hover:bg-indigo-50'
-                    }`}
-                  >
-                    {plan.id === selectedPlan.id ? 'Selected' : 'Select Plan'}
-                  </button>
+                  <div className="mt-8">
+                    <button
+                      onClick={() => setSelectedPlan(plan)}
+                      className={`w-full flex items-center justify-center px-6 py-3 border rounded-md text-base font-medium ${
+                        plan.id === selectedPlan.id
+                          ? 'bg-indigo-600 text-white border-indigo-600'
+                          : 'bg-white text-indigo-600 border-indigo-600 hover:bg-indigo-50'
+                      }`}
+                    >
+                      {plan.id === selectedPlan.id ? (
+                        <>
+                          <svg
+                            className="-ml-1 mr-2 h-5 w-5"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                          Selected
+                        </>
+                      ) : (
+                        'Select Plan'
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="mt-12 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden">
-            <div className="p-8">
-              <h2 className="text-xl font-bold text-gray-800 mb-6">
-                Complete Your {selectedPlan.name} Subscription
-              </h2>
+          {/* Payment Form */}
+          <div className="mt-16 max-w-2xl mx-auto">
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+              <div className="p-8 sm:p-10">
+                <div className="text-center mb-8">
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    Complete Your {selectedPlan.name} Subscription
+                  </h2>
+                  <p className="mt-2 text-gray-600">
+                    Enter your details to get started
+                  </p>
+                </div>
 
-              <form onSubmit={initiatePayment} className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                <form onSubmit={initiatePayment} className="space-y-6">
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        placeholder="John Doe"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        placeholder="john@example.com"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        required
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="block w-full px-4 py-3 rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        placeholder="+91 9876543210"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Selected Plan
+                      </label>
+                      <div className="px-4 py-3 bg-gray-50 rounded-md h-full flex flex-col justify-center">
+                        <p className="font-medium text-gray-900">{selectedPlan.name}</p>
+                        <p className="text-sm text-gray-500">
+                          ₹{activeTab === 'yearly' ? Math.floor(selectedPlan.price * 12 * 0.8) : selectedPlan.price}{' '}
+                          / {activeTab === 'yearly' ? 'year' : 'month'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-4">
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full flex justify-center items-center px-6 py-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {loading ? (
+                        <>
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                          Processing...
+                        </>
+                      ) : (
+                        `Pay ₹${activeTab === 'yearly' ? Math.floor(selectedPlan.price * 12 * 0.8) : selectedPlan.price}`
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          {/* Trust indicators */}
+          <div className="mt-16 text-center">
+            <div className="inline-flex flex-wrap justify-center items-center divide-x divide-gray-200">
+              <div className="px-5 py-2">
+                <svg
+                  className="h-8 w-8 mx-auto text-indigo-600"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M3 5a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm11 1H6v8l4-2 4 2V6z"
+                    clipRule="evenodd"
                   />
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                </svg>
+                <p className="mt-2 text-sm text-gray-500">Secure Payments</p>
+              </div>
+              <div className="px-5 py-2">
+                <svg
+                  className="h-8 w-8 mx-auto text-indigo-600"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                    clipRule="evenodd"
                   />
-                </div>
-
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    required
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                </svg>
+                <p className="mt-2 text-sm text-gray-500">Instant Activation</p>
+              </div>
+              <div className="px-5 py-2">
+                <svg
+                  className="h-8 w-8 mx-auto text-indigo-600"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z"
+                    clipRule="evenodd"
                   />
-                </div>
-
-                <div className="pt-4">
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {loading ? 'Processing...' : `Pay ₹${selectedPlan.price}`}
-                  </button>
-                </div>
-              </form>
+                </svg>
+                <p className="mt-2 text-sm text-gray-500">24/7 Support</p>
+              </div>
             </div>
           </div>
         </div>
