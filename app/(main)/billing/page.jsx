@@ -1,100 +1,134 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Head from 'next/head';
+import { useState } from "react";
+import Head from "next/head";
 
 const PLANS = [
   {
-    id: 'basic',
-    name: 'Basic Plan',
+    id: "basic",
+    name: "Basic Plan",
     price: 2500,
     features: [
-      'Access to Basic Features',
-      'Email Support',
-      'Community Access',
-      'Basic Analytics',
-      'Single User License',
+      "Access to Basic Features",
+      "Email Support",
+      "Community Access",
+      "Basic Analytics",
+      "Single User License",
     ],
     popular: false,
-    color: 'bg-blue-50',
-    textColor: 'text-blue-600',
+    color: "bg-blue-50",
+    textColor: "text-blue-600",
   },
   {
-    id: 'Pro',
-    name: 'Advanced Plan',
+    id: "Pro",
+    name: "Advanced Plan",
     price: 5000,
     features: [
-      'All Basic Features',
-      'Priority Email Support',
-      'Advanced Analytics',
-      'Multi-User License (Up to 5 Users)',
-      'Customizable Dashboards',
+      "All Basic Features",
+      "Priority Email Support",
+      "Advanced Analytics",
+      "Multi-User License (Up to 5 Users)",
+      "Customizable Dashboards",
     ],
     popular: true,
-    color: 'bg-purple-50',
-    textColor: 'text-purple-600',
+    color: "bg-purple-50",
+    textColor: "text-purple-600",
   },
   {
-    id: 'Enterprise',
-    name: 'Enterprise Plan',
+    id: "Enterprise",
+    name: "Enterprise Plan",
     price: 7500,
     features: [
-      'All Advanced Features',
-      '24/7 Dedicated Support',
-      'Custom Solutions',
-      'Unlimited User License',
-      'Integration with Third-Party Tools',
-      'Dedicated Account Manager',
+      "All Advanced Features",
+      "24/7 Dedicated Support",
+      "Custom Solutions",
+      "Unlimited User License",
+      "Integration with Third-Party Tools",
+      "Dedicated Account Manager",
     ],
     popular: false,
-    color: 'bg-green-50',
-    textColor: 'text-green-600',
+    color: "bg-green-50",
+    textColor: "text-green-600",
   },
   {
-    id: 'Custom',
-    name: 'Custom Plan',
-    price: 'Custom', // Updated price
+    id: "Custom",
+    name: "Custom Plan",
+    price: "Custom",
     features: [
-      'All Enterprise Features',
-      'Dedicated Account Manager',
-      'Custom Integrations',
-      'Unlimited API Access',
-      'Priority 24/7 Support',
+      "All Enterprise Features",
+      "Dedicated Account Manager",
+      "Custom Integrations",
+      "Unlimited API Access",
+      "Priority 24/7 Support",
     ],
-    popular: true, // Marked as popular
-    color: 'bg-yellow-50', // Updated color
-    textColor: 'text-yellow-600', // Updated text color
+    popular: true,
+    color: "bg-yellow-50",
+    textColor: "text-yellow-600",
   },
 ];
 
 export default function Billing() {
   const [selectedPlan, setSelectedPlan] = useState(PLANS[0]);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
+    name: "",
+    email: "",
+    phone: "",
   });
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState('monthly');
+  const [activeTab, setActiveTab] = useState("monthly");
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const validateForm = () => {
+    if (!formData.name.trim()) {
+      setError("Please enter your name");
+      return false;
+    }
+    if (!formData.email.trim()) {
+      setError("Please enter your email");
+      return false;
+    }
+    if (!formData.phone.trim()) {
+      setError("Please enter your phone number");
+      return false;
+    }
+    if (typeof selectedPlan.price !== "number") {
+      setError("Please contact us for custom pricing");
+      return false;
+    }
+    setError("");
+    return true;
+  };
+
   const initiatePayment = async (e) => {
     e.preventDefault();
+    
+    if (!validateForm()) return;
+    
     setLoading(true);
 
     try {
-      const response = await fetch('/api/create-razorpay-order', {
-        method: 'POST',
+      // Load Razorpay script dynamically if not already loaded
+      if (!window.Razorpay) {
+        await loadRazorpayScript();
+      }
+
+      const amount = activeTab === "yearly" 
+        ? Math.floor(selectedPlan.price * 12 * 0.8) * 100 
+        : selectedPlan.price * 100;
+
+      const response = await fetch("/api/create-razorpay-order", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          amount: selectedPlan.price * 100,
-          currency: 'INR',
+          amount: amount,
+          currency: "INR",
           planId: selectedPlan.id,
           customer: {
             name: formData.name,
@@ -104,35 +138,45 @@ export default function Billing() {
         }),
       });
 
-      const { orderId, amount, currency } = await response.json();
+      if (!response.ok) {
+        throw new Error("Failed to create order");
+      }
+
+      const { orderId, amount: orderAmount, currency } = await response.json();
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: amount,
+        amount: orderAmount,
         currency: currency,
-        name: 'Your Company',
+        name: "Your Company",
         description: `Subscription: ${selectedPlan.name}`,
         order_id: orderId,
         handler: async function (response) {
-          const verification = await fetch('/api/verify-payment', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_signature: response.razorpay_signature,
-              planId: selectedPlan.id,
-              customer: formData,
-            }),
-          });
+          try {
+            const verification = await fetch("/api/verify-payment", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                planId: selectedPlan.id,
+                customer: formData,
+                billingPeriod: activeTab,
+              }),
+            });
 
-          const result = await verification.json();
-          if (result.success) {
-            window.location.href = `/payment-success?payment_id=${response.razorpay_payment_id}&plan=${selectedPlan.id}`;
-          } else {
-            alert('Payment verification failed');
+            const result = await verification.json();
+            if (result.success) {
+              window.location.href = `/payment-success?payment_id=${response.razorpay_payment_id}&plan=${selectedPlan.id}`;
+            } else {
+              alert("Payment verification failed. Please contact support.");
+            }
+          } catch (err) {
+            console.error("Verification error:", err);
+            alert("There was an error verifying your payment. Please contact support.");
           }
         },
         prefill: {
@@ -140,27 +184,51 @@ export default function Billing() {
           email: formData.email,
           contact: formData.phone,
         },
+        notes: {
+          plan: selectedPlan.name,
+          billing: activeTab,
+        },
         theme: {
-          color: '#6366f1',
+          color: "#6366f1",
         },
       };
 
       const rzp = new window.Razorpay(options);
+      rzp.on("payment.failed", function (response) {
+        alert(`Payment failed: ${response.error.description}`);
+      });
       rzp.open();
     } catch (error) {
-      console.error('Payment error:', error);
-      alert('Payment failed. Please try again.');
+      console.error("Payment error:", error);
+      setError(error.message || "Payment failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
+  // Function to dynamically load Razorpay script
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => {
+        resolve();
+      };
+      script.onerror = () => {
+        throw new Error("Failed to load Razorpay script");
+      };
+      document.body.appendChild(script);
+    });
+  };
+
   return (
     <>
       <Head>
-        <script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
         <title>Choose Your Plan | Your Company</title>
-        <meta name="description" content="Select the perfect plan for your needs" />
+        <meta
+          name="description"
+          content="Select the perfect plan for your needs"
+        />
       </Head>
 
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -180,22 +248,22 @@ export default function Billing() {
             <div className="inline-flex rounded-md shadow-sm">
               <button
                 type="button"
-                onClick={() => setActiveTab('monthly')}
+                onClick={() => setActiveTab("monthly")}
                 className={`px-6 py-3 text-sm font-medium rounded-l-lg ${
-                  activeTab === 'monthly'
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                  activeTab === "monthly"
+                    ? "bg-indigo-600 text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-50"
                 }`}
               >
                 Monthly Billing
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab('yearly')}
+                onClick={() => setActiveTab("yearly")}
                 className={`px-6 py-3 text-sm font-medium rounded-r-lg ${
-                  activeTab === 'yearly'
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                  activeTab === "yearly"
+                    ? "bg-indigo-600 text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-50"
                 }`}
               >
                 Yearly Billing (Save 20%)
@@ -209,7 +277,7 @@ export default function Billing() {
               <div
                 key={plan.id}
                 className={`relative rounded-xl border border-gray-200 bg-white shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl flex flex-col h-full ${
-                  plan.popular ? 'ring-2 ring-indigo-500 md:-mt-2 md:mb-2' : ''
+                  plan.popular ? "ring-2 ring-indigo-500 md:-mt-2 md:mb-2" : ""
                 }`}
               >
                 {plan.popular && (
@@ -218,16 +286,27 @@ export default function Billing() {
                   </div>
                 )}
                 <div className={`p-6 ${plan.color}`}>
-                  <h2 className={`text-lg font-semibold ${plan.textColor}`}>{plan.name}</h2>
+                  <h2 className={`text-lg font-semibold ${plan.textColor}`}>
+                    {plan.name}
+                  </h2>
                   <p className="mt-2 flex items-baseline">
-                    <span className="text-4xl font-extrabold text-gray-900">
-                      ₹{activeTab === 'yearly' ? Math.floor(plan.price * 12 * 0.8) : plan.price}
-                    </span>
-                    <span className="ml-1 text-lg font-medium text-gray-500">
-                      /{activeTab === 'yearly' ? 'year' : 'month'}
-                    </span>
+                    {typeof plan.price === "number" ? (
+                      <>
+                        <span className="text-4xl font-extrabold text-gray-900">
+                          ₹
+                          {activeTab === "yearly"
+                            ? Math.floor(plan.price * 12 * 0.8)
+                            : plan.price}
+                        </span>
+                        <span className="ml-1 text-lg font-medium text-gray-500">
+                          /{activeTab === "yearly" ? "year" : "month"}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-lg font-medium text-gray-500">Custom Pricing</span>
+                    )}
                   </p>
-                  {activeTab === 'yearly' && (
+                  {activeTab === "yearly" && typeof plan.price === "number" && (
                     <p className="mt-1 text-sm text-gray-500">
                       <span className="line-through">₹{plan.price * 12}</span> (Save 20%)
                     </p>
@@ -257,8 +336,8 @@ export default function Billing() {
                       onClick={() => setSelectedPlan(plan)}
                       className={`w-full flex items-center justify-center px-6 py-3 border rounded-md text-base font-medium ${
                         plan.id === selectedPlan.id
-                          ? 'bg-indigo-600 text-white border-indigo-600'
-                          : 'bg-white text-indigo-600 border-indigo-600 hover:bg-indigo-50'
+                          ? "bg-indigo-600 text-white border-indigo-600"
+                          : "bg-white text-indigo-600 border-indigo-600 hover:bg-indigo-50"
                       }`}
                     >
                       {plan.id === selectedPlan.id ? (
@@ -278,7 +357,7 @@ export default function Billing() {
                           Selected
                         </>
                       ) : (
-                        'Select Plan'
+                        "Select Plan"
                       )}
                     </button>
                   </div>
@@ -300,10 +379,19 @@ export default function Billing() {
                   </p>
                 </div>
 
+                {error && (
+                  <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-md">
+                    {error}
+                  </div>
+                )}
+
                 <form onSubmit={initiatePayment} className="space-y-6">
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div className="space-y-2">
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-700"
+                      >
                         Full Name
                       </label>
                       <input
@@ -319,7 +407,10 @@ export default function Billing() {
                     </div>
 
                     <div className="space-y-2">
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-gray-700"
+                      >
                         Email Address
                       </label>
                       <input
@@ -335,7 +426,10 @@ export default function Billing() {
                     </div>
 
                     <div className="space-y-2">
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                      <label
+                        htmlFor="phone"
+                        className="block text-sm font-medium text-gray-700"
+                      >
                         Phone Number
                       </label>
                       <input
@@ -355,10 +449,21 @@ export default function Billing() {
                         Selected Plan
                       </label>
                       <div className="px-4 py-3 bg-gray-50 rounded-md h-full flex flex-col justify-center">
-                        <p className="font-medium text-gray-900">{selectedPlan.name}</p>
+                        <p className="font-medium text-gray-900">
+                          {selectedPlan.name}
+                        </p>
                         <p className="text-sm text-gray-500">
-                          ₹{activeTab === 'yearly' ? Math.floor(selectedPlan.price * 12 * 0.8) : selectedPlan.price}{' '}
-                          / {activeTab === 'yearly' ? 'year' : 'month'}
+                          {typeof selectedPlan.price === "number" ? (
+                            <>
+                              ₹
+                              {activeTab === "yearly"
+                                ? Math.floor(selectedPlan.price * 12 * 0.8)
+                                : selectedPlan.price}
+                              / {activeTab === "yearly" ? "year" : "month"}
+                            </>
+                          ) : (
+                            "Custom Pricing - Contact Us"
+                          )}
                         </p>
                       </div>
                     </div>
@@ -367,8 +472,12 @@ export default function Billing() {
                   <div className="pt-4">
                     <button
                       type="submit"
-                      disabled={loading}
-                      className="w-full flex justify-center items-center px-6 py-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled={loading || typeof selectedPlan.price !== "number"}
+                      className={`w-full flex justify-center items-center px-6 py-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+                        loading || typeof selectedPlan.price !== "number"
+                          ? "opacity-50 cursor-not-allowed"
+                          : ""
+                      }`}
                     >
                       {loading ? (
                         <>
@@ -394,8 +503,14 @@ export default function Billing() {
                           </svg>
                           Processing...
                         </>
+                      ) : typeof selectedPlan.price === "number" ? (
+                        `Pay ₹${
+                          activeTab === "yearly"
+                            ? Math.floor(selectedPlan.price * 12 * 0.8)
+                            : selectedPlan.price
+                        }`
                       ) : (
-                        `Pay ₹${activeTab === 'yearly' ? Math.floor(selectedPlan.price * 12 * 0.8) : selectedPlan.price}`
+                        "Contact for Pricing"
                       )}
                     </button>
                   </div>
