@@ -68,26 +68,33 @@ function Interview() {
       return;
     }
 
-    await supabase.from('Interviews')
-    .update({ candidate_name: userName})
-    .eq('interview_id', interview_id)
-    .select()
-    
-    const { data: Interviews, error } = await supabase
-      .from('Interviews')
-      .select('*')
-      .eq('interview_id', interview_id);
+    if (!userEmail) {
+      toast('Please enter your email');
+      return;
+    }
 
-    if (error) {
-      console.error('Supabase Error during Join:', error);
-      toast('Failed to join interview');
-    } else if (Interviews && Interviews.length > 0) {
-      console.log("Joining interview:", Interviews[0]);
-      setInterviewInfo(Interviews[0]);
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(userEmail)) {
+      toast('Please enter a valid email address');
+      return;
+    }
+
+    try {
+      // Store user data in context
+      setInterviewInfo({
+        ...interviewInfo,
+        candidate_name: userName,
+        userEmail: userEmail,
+        interview_id: interview_id,
+      });
+
+      // Navigate to the interview start page
       router.push('/interview/' + interview_id + '/start');
       toast('Joining interview...');
-    } else {
-      toast('Interview not found');
+    } catch (e) {
+      console.error('Error:', e);
+      toast('Failed to join interview');
     }
   };
 

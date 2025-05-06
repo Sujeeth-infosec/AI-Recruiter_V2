@@ -144,25 +144,34 @@ function StartInterview() {
 
   const GenerateFeedback = async () => {
     try {
+      // Send conversation data to the AI feedback API
       const result = await axios.post("/api/ai-feedback", {
         conversation: conversation.current,
       });
-      
-      const Content = result?.data?.content?.replace("```json", "").replace("```", "");
-      
-      await supabase
-        .from("interview-feedback")
-        .insert([
-          {
-            userName: interviewInfo?.candidate_name,
-            userEmail: interviewInfo?.userEmail,
-            interview_id: interview_id,
-            feedback: JSON.parse(Content),
-            recommended: false
-          },
-        ]);
-        
+
+      // Extract and clean the feedback content
+      const Content = result?.data?.content
+        ?.replace("```json", "")
+        ?.replace("```", "");
+
+      if (!Content) {
+        throw new Error("Feedback content is empty");
+      }
+
+      // Insert feedback into the Supabase database
+      await supabase.from("interview-feedback").insert([
+        {
+          userName: interviewInfo?.candidate_name,
+          userEmail: interviewInfo?.userEmail,
+          interview_id: interview_id,
+          feedback: JSON.parse(Content),
+          recommended: false,
+        },
+      ]);
+
+      // Redirect to the completed interview page
       router.replace("/interview/" + interviewInfo?.interview_id + "/completed");
+      toast.success("Feedback generated successfully!");
     } catch (error) {
       console.error("Feedback generation failed:", error);
       toast.error("Failed to generate feedback");
