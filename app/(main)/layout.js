@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import DashboardProvider from './provider';
 import WelcomeContainer from './dashboard/_components/WelcomeContainer';
 
