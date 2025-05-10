@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import CandidateListFeedbackDialog from "./CandidateFeedbackDialog";
+import exportToCSV from '@/lib/exportToCSV'; // Corrected the import path
 
 function CandidateList({ candidateList }) {
   // Function to calculate average rating (e.g., 6/10)
@@ -18,6 +19,12 @@ function CandidateList({ candidateList }) {
   return (
     <div>
       <h2>Candidates ({candidateList?.length})</h2>
+      <button
+        onClick={() => exportToCSV(candidateList)}
+        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+      >
+        Download CSV
+      </button>
       {candidateList?.map((candidate, index) => (
         <div
           key={index}
