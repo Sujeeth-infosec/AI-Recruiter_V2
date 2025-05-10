@@ -46,6 +46,99 @@ function CandidateFeedbackDialog({ candidate }) {
   // Determine recommendation status
   const isRecommended = !feedback?.Recommendation?.toLowerCase().includes('not');
 
+  const getQualitativeFeedback = (score) => {
+    if (score >= 8) return "Good";
+    if (score >= 5) return "Needs Improvement";
+    return "Bad";
+  };
+
+  // Email templates
+  const emailTemplates = {
+    selected: `Subject: Congratulations! You've been selected for further evaluation
+
+Dear ${candidate?.userName || "Candidate"},
+
+We're pleased to inform you that based on your recent interview performance, you've been selected to move forward in our hiring process for the ${candidate?.jobPosition || "the position"} role.
+
+Your performance in the key areas is summarized below:
+${Object.entries(rating)
+  .map(
+    ([skill, score]) =>
+      `- ${skill.replace(/([A-Z])/g, " $1").trim()}: ${getQualitativeFeedback(
+        score
+      )}`
+  )
+  .join("\n")}
+
+Our team will be in touch shortly to schedule the next phase. In the meantime, feel free to reply to this email with any questions.
+
+Congratulations again!
+
+Best regards,
+${candidate?.userName || "Candidate"}
+${candidate?.jobPosition || "the position"}
+${candidate?.userEmail || "No Email"}`,
+
+    rejected: `Subject: Update on Your Application for ${candidate?.jobPosition || "the position"}
+
+Dear ${candidate?.userName || "Candidate"},
+
+Thank you for taking the time to interview with us for the ${candidate?.jobPosition || "the position"} position. We appreciate the effort you put into the process.
+
+Your performance in the key areas is summarized below:
+${Object.entries(rating)
+  .map(
+    ([skill, score]) =>
+      `- ${skill.replace(/([A-Z])/g, " $1").trim()}: ${getQualitativeFeedback(
+        score
+      )}`
+  )
+  .join("\n")}
+
+After careful consideration, we've decided to move forward with other candidates whose skills and experience more closely match our current needs.
+
+We wish you the best in your job search and professional endeavors.
+
+Best regards,
+${candidate?.userName || "Candidate"}
+${candidate?.jobPosition || "the position"}
+${candidate?.userEmail || "No Email"}`,
+
+    reevaluate: `Subject: Request for Additional Evaluation for ${candidate?.jobPosition || "the position"}
+
+Dear ${candidate?.userName || "Candidate"},
+
+Thank you for your recent interview for the ${candidate?.jobPosition || "the position"} role. While we found several strengths in your application, we'd like to gather some additional information before making a final decision.
+
+Your performance in the key areas is summarized below:
+${Object.entries(rating)
+  .map(
+    ([skill, score]) =>
+      `- ${skill.replace(/([A-Z])/g, " $1").trim()}: ${getQualitativeFeedback(
+        score
+      )}`
+  )
+  .join("\n")}
+
+Would you be available for a conversation at your earliest convenience? Please reply with your availability or any questions you might have.
+
+We appreciate your time and interest, and we look forward to continuing the conversation.
+
+Best regards,
+${candidate?.userName || "Candidate"}
+${candidate?.jobPosition || "the position"}
+${candidate?.userEmail || "No Email"}`,
+  };
+
+  // Function to open email client with template
+  const handleEmailAction = (templateType) => {
+    const email = candidate?.userEmail || '';
+    const subject = emailTemplates[templateType].split('\n')[0].replace('Subject: ', '');
+    const body = emailTemplates[templateType].split('\n').slice(1).join('\n');
+    
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -128,12 +221,29 @@ function CandidateFeedbackDialog({ candidate }) {
                       {recommendationMessage}
                     </p>
                   </div>
-                  <Button 
-                    variant={isRecommended ? "default" : "destructive"} 
-                    className={`ml-4 ${isRecommended ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}
-                  >
-                    Send Message
-                  </Button>
+                  <div className="flex flex-col gap-2 ml-4">
+                    <Button 
+                      onClick={() => handleEmailAction('selected')}
+                      variant="outline" 
+                      className="text-green-600 border-green-600 hover:bg-green-50"
+                    >
+                      Selected for Further Evaluation
+                    </Button>
+                    <Button 
+                      onClick={() => handleEmailAction('rejected')}
+                      variant="outline" 
+                      className="text-red-600 border-red-600 hover:bg-red-50"
+                    >
+                      Rejected
+                    </Button>
+                    <Button 
+                      onClick={() => handleEmailAction('reevaluate')}
+                      variant="outline" 
+                      className="text-yellow-600 border-yellow-600 hover:bg-yellow-50"
+                    >
+                      Request Reevaluation
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>

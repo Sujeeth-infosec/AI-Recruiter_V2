@@ -54,7 +54,7 @@ export const InterviewType=[
 export const QUESTIONS_PROMPT=`You are an expert technical interviewer.
 Based on the following inputs, generate a well-structured list of high-quality interview questions including candidate introduction, salary negotiation, and closing questions.
 
-Job Title: {{jobTitle}}
+Job Title: {{jobPosition}}
 
 Job Description:{{jobDescription}}
 
@@ -81,7 +81,7 @@ format: interviewQuestions=[
 ...
 }]
 
-🎯 The goal is to create a structured, relevant, and time-optimized interview plan for a {{jobTitle}} role.`
+🎯 The goal is to create a structured, relevant, and time-optimized interview plan for a {{jobPosition}} role.`
 
 export const FEEDBACK_PROMPT=`{{conversation}}
 

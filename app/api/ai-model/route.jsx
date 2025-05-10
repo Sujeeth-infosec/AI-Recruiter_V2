@@ -23,6 +23,7 @@ export async function POST(req) {
       })
       const completion = await openai.chat.completions.create({
         model: "deepseek/deepseek-r1:free",
+        // model: "llama-4-scout:free",
         messages: [
           { role: "user", content: FINAL_PROMPT }
         ],

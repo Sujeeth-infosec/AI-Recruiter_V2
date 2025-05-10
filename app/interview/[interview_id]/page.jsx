@@ -44,19 +44,29 @@ function Interview() {
   };
 
   const validateJoin = () => {
+    // Validate user name
     if (!userName.trim()) {
-      toast.warning('Full name required');
+      toast.warning('Full name is required');
       return false;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail)) {
-      toast.warning('Valid email required');
+    // Ensure the user name has at least two words (e.g., "First Last")
+    if (userName.trim().split(' ').length < 2) {
+      toast.warning('Please provide your full name (e.g., First Last)');
       return false;
     }
-    return true;
+
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Strict email validation
+    if (!emailRegex.test(userEmail)) {
+      toast.warning('Valid email required (e.g., user@domain.com)');
+      return false;
+    }
+
+    return true; // Validation passed
   };
 
   const onJoinInterview = async () => {
-    if (!validateJoin()) return;
+    if (!validateJoin()) return; // Deny entry if validation fails
 
     try {
       setInterviewInfo({
@@ -165,7 +175,7 @@ function Interview() {
                   Your Full Name
                 </label>
                 <Input
-                  placeholder="Alex Johnson"
+                  placeholder="Eg: Sujeeth Kumar"
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
                   className="py-3 px-4 border-gray-300 focus:ring-2 focus:ring-indigo-500"
@@ -182,7 +192,7 @@ function Interview() {
                 </label>
                 <Input
                   type="email"
-                  placeholder="alex.johnson@example.com"
+                  placeholder="Eg: Sujeethkumar@example.com"
                   value={userEmail}
                   onChange={(e) => setUserEmail(e.target.value)}
                   className="py-3 px-4 border-gray-300 focus:ring-2 focus:ring-indigo-500"
@@ -202,6 +212,9 @@ function Interview() {
                 </h4>
                 <ul className="space-y-3">
                   {[
+                    'Provide a proper name & valid email address',
+                    'Give access to your microphone',
+                    'Ensure a stable internet connection',
                     'Enable camera permissions',
                     'Use Chrome or Edge browser',
                     'Find a quiet environment',
