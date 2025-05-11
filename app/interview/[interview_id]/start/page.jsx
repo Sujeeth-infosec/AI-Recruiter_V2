@@ -14,6 +14,7 @@ import { supabase } from "@/services/supabaseClient";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { J } from "framer-motion/dist/types.d-B50aGbjN";
 
 function StartInterview() {
   const { interviewInfo, setInterviewInfo } = useContext(InterviewDataContext);
@@ -221,7 +222,7 @@ Key Guidelines:
           userName: interviewInfo?.candidate_name,
           userEmail: interviewInfo?.userEmail,
           interview_id: interview_id,
-          feedback: Content,
+          feedback: JSON.parse(Content),
           recommended: false,
         },
       ]);
