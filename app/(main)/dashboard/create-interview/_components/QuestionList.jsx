@@ -14,6 +14,7 @@ function QuestionList({ formData, onCreateLink }) {
   const [saveLoading, setSaveLoading] = useState(false);
   const { user } = useUser();
   const hasCalled = useRef(false);
+console.log('user', user);
 
   useEffect(() => {
     if (formData && !hasCalled.current) {

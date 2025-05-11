@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, use } from 'react';
 import Image from 'next/image';
 import { Clock, Mic, Video, CheckCircle, ChevronRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -16,6 +16,12 @@ function Interview() {
   const [interviewData, setInterviewData] = useState(null);
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
+  // const [interviewDetails, setInterviewDetails] = useState('');
+  // const [interviewQuestions, setInterviewQuestions] = useState('');
+  // const [interviewDuration, setInterviewDuration] = useState('');
+  // const [interviewType, setInterviewType] = useState('');
+  // const [interviewStatus, setInterviewStatus] = useState('pending');
+  // const [interviewDate, setInterviewDate] = useState('');
   const [loading, setLoading] = useState(false);
   const { interviewInfo, setInterviewInfo } = useContext(InterviewDataContext);
   const router = useRouter();
@@ -24,17 +30,28 @@ function Interview() {
     if (interview_id) GetInterviewDetails();
   }, [interview_id]);
 
+  useEffect(() => {
+    const interviewData = async () => {
+      const { data: Interviews, error } = await supabase
+        .from('Users')
+        .select('email')
+        .eq('interview_id', interview_id);
+    }
+  }, []);
   const GetInterviewDetails = async () => {
     setLoading(true);
     try {
       const { data: Interviews, error } = await supabase
         .from('Interviews')
-        .select('jobPosition, jobDescription, duration, type, questionList')
+        .select('candidate_name, userEmail, jobPosition, jobDescription, duration, type, questionList')
         .eq('interview_id', interview_id);
 
       if (error) throw error;
       if (!Interviews?.length) throw new Error('No interview found');
       
+      console.log('Interviews:', Interviews);
+      // Set the interview data to state
+
       setInterviewData(Interviews[0]);
     } catch (error) {
       toast.error(error.message || 'Failed to fetch details');
@@ -43,36 +60,41 @@ function Interview() {
     }
   };
 
-  const validateJoin = () => {
-    // Validate user name
-    if (!userName.trim()) {
-      toast.warning('Full name is required');
-      return false;
-    }
-    // Ensure the user name has at least two words (e.g., "First Last")
-    if (userName.trim().split(' ').length < 2) {
-      toast.warning('Please provide your full name (e.g., First Last)');
-      return false;
-    }
+  // const validateJoin = () => {
+  //    Validate user name
+  //    if (!userName.trim()) {
+  //     toast.warning('Full name is required');
+  //     return false;
+  //   }
+  //    Ensure the user name has at least two words (e.g., "First Last")
+  //   if (userName.trim().split(' ').length < 2) {
+  //     toast.warning('Please provide your full name (e.g., First Last)');
+  //     return false;
+  //   }
 
-    // Validate email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Strict email validation
-    if (!emailRegex.test(userEmail)) {
-      toast.warning('Valid email required (e.g., user@domain.com)');
-      return false;
-    }
+  //    Validate email
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Strict email validation
+  //   if (!emailRegex.test(userEmail)) {
+  //     toast.warning('Valid email required (e.g., user@domain.com)');
+  //     return false;
+  //   }
 
-    return true; // Validation passed
-  };
+  //   return true; // Validation passed
+  // };
 
   const onJoinInterview = async () => {
-    if (!validateJoin()) return; // Deny entry if validation fails
+    // if (!validateJoin()) return; // Deny entry if validation fails
 
     try {
       setInterviewInfo({
         ...interviewInfo,
         candidate_name: userName,
+        jobPosition: interviewData?.jobPosition,
+        jobDescription: interviewData?.jobDescription,
+        duration: interviewData?.duration,
         userEmail: userEmail,
+        type: interviewData?.type,
+        questionList: interviewData?.questionList,
         interview_id: interview_id,
       });
       
@@ -241,7 +263,7 @@ function Interview() {
               >
                 <Button
                   onClick={onJoinInterview}
-                  disabled={loading || !userName || !userEmail}
+                  // disabled={loading || !userName || !userEmail}
                   className={`w-full py-4 rounded-xl text-lg font-medium transition-all ${!loading && 'hover:shadow-lg'}`}
                 >
                   {loading ? (
