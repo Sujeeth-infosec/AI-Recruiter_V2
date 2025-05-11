@@ -100,8 +100,13 @@ Contributions are welcome! Please fork the repository, create a new branch, and 
 
 ## 📄 License
 
+
+
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/Sujeeth-infosec/AI-Recruiter/blob/main/LICENSE) file for details.
 
 ---
 
-Let me know if you’d like a badge section or deployment instructions (like Vercel).
+
+https://github.com/user-attachments/assets/c5f97093-8063-4af9-9984-1b27f25f920b
+
+t instructions (like Vercel).
