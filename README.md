@@ -88,7 +88,7 @@ Visit `https://ai-recruiter-pi.vercel.app/` to access the application.
 
 ## 📚 Documentation
 
-For a comprehensive overview of the system, architecture, and workflows, refer to the official project documentation on [DeepWiki](https://deepwiki.com/Sujeeth-infosec/AI-Recruiter).
+For a comprehensive overview of the system, architecture, and workflows, refer to the official project documentation on [DeepWiki](https://deepwiki.com/Sujeeth-infosec/AI-Recruiter_V2).
 
 ---
 
@@ -96,17 +96,19 @@ For a comprehensive overview of the system, architecture, and workflows, refer t
 
 Contributions are welcome! Please fork the repository, create a new branch, and submit a pull request with clear documentation of your changes.
 
----
-
-## 📄 License
-
-
-
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/Sujeeth-infosec/AI-Recruiter/blob/main/LICENSE) file for details.
 
 ---
 Demo Video Model of this AI Recruiter Project
 
 https://github.com/user-attachments/assets/c5f97093-8063-4af9-9984-1b27f25f920b
 
-t instructions (like Vercel).
+More Features to be added soon in this project !!!
+- Video Call
+- Live Video Detection and Analysis (Anti-Cheating)
+- Live ATS Resume Scanner
+- Information Mail Automation
+
+
+## 📄 License
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/Sujeeth-infosec/AI-Recruiter/blob/main/LICENSE) file for details.
+
