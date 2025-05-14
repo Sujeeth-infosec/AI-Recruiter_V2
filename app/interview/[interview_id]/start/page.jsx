@@ -103,9 +103,9 @@ function StartInterview() {
 
   const startCall = async () => {
     const jobPosition = interviewInfo?.jobPosition || "Unknown Position";
-    const questionList = interviewInfo?.questionList;
+    const questionList = interviewInfo?.questionList?.interviewQuestions.map((question) => question?.question);
     console.log("jobPosition:", jobPosition);
-    console.log("questionList:", questionList);
+    console.log("questionList:' ", questionList);
 
     const assistantOptions = {
       name: "AI Recruiter",
@@ -131,7 +131,7 @@ Your job is to ask candidates provided interview questions, assess their respons
 Begin the conversation with a friendly introduction, setting a relaxed yet professional tone. Example:
 "Hey ${interviewInfo?.candidate_name}! Welcome to your ${interviewInfo?.jobPosition} interview. Let’s get started with a few questions!"
 Ask one question at a time and wait for the candidate’s response before proceeding. Keep the questions clear and concise. Below Are the questions ask one by one:
-Questions: ${interviewInfo?.questionList}
+Questions: ${questionList}
 If the candidate struggles, offer hints or rephrase the question without giving away the answer. Example:
 "Need a hint? Think about how React tracks component updates!"
 Provide brief, encouraging feedback after each answer. Example:
@@ -157,6 +157,8 @@ Key Guidelines:
   };
 
   useEffect(() => {
+    if (!vapi) return;
+    // Set up event listeners for Vapi events
     const handleMessage = (message) => {
       if (message?.role === "assistant" && message?.content) {
         setSubtitles(message.content);
