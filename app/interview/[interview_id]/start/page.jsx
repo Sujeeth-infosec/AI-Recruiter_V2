@@ -24,6 +24,7 @@ function StartInterview() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const conversation = useRef(null);
   const { interview_id } = useParams();
+  
   // const { interviews } = useContext(InterviewDataContext);
   const router = useRouter();
   const [userProfile, setUserProfile] = useState({
@@ -68,8 +69,11 @@ function StartInterview() {
   // }, [interview_id, setInterviewInfo]);
 
   useEffect(() => {
-    // Load Google profile if available
-    if (typeof window !== 'undefined') {
+    // Load Google profile if available and userProfile is not already set
+    if (
+      typeof window !== 'undefined' &&
+      !userProfile.name // Prevent override if already set
+    ) {
       const googleProfile = localStorage.getItem('googleProfile');
       if (googleProfile) {
         const { picture, name } = JSON.parse(googleProfile);
@@ -77,16 +81,12 @@ function StartInterview() {
       }
     }
 
-    if (
-      interviewInfo &&                // Check if interviewInfo is defined
-      interviewInfo?.jobPosition &&   // Ensure jobPosition exists in interviewInfo
-      vapi &&                         // Check if vapi instance is available
-      !start                          // Ensure the call hasn't already started
-    ) {
-      setStart(true);                 // Set the start state to true
-      startCall();                    // Trigger the startCall function
+    // Start the interview if conditions are met
+    if (interviewInfo?.jobPosition && vapi && !start) {
+      setStart(true); // Mark the interview as started
+      startCall(); // Trigger the startCall function
     }
-  }, [interviewInfo, vapi]);          // Dependencies: re-run if interviewInfo or vapi changes
+  }, [interviewInfo, vapi]); // Dependencies: re-run if interviewInfo or vapi changes
 
   useEffect(() => {
     console.log("interviewInfo:", interviewInfo);
@@ -103,7 +103,9 @@ function StartInterview() {
 
   const startCall = async () => {
     const jobPosition = interviewInfo?.jobPosition || "Unknown Position";
+    const questionList = interviewInfo?.questionList;
     console.log("jobPosition:", jobPosition);
+    console.log("questionList:", questionList);
 
     const assistantOptions = {
       name: "AI Recruiter",
