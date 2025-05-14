@@ -33,7 +33,19 @@ const InterviewLink = ({ interview_id, formData }) => {
     const interviewTitle = formData?.title || 'AI Interview';
     const defaultMessage = `Join my ${interviewTitle} interview: ${url}`;
     const emailSubject = `Invitation to ${interviewTitle}`;
-    const emailBody = `Hello,\n\nI'd like to invite you to participate in my ${interviewTitle}.\n\nYou can access the interview here: ${url}\n\nLooking forward to your responses!`;
+    const emailBody = `Dear Candidate,
+
+I hope this message finds you well. I am pleased to invite you to participate in my ${interviewTitle}. This interview is designed to assess your skills and provide an opportunity to showcase your expertise.
+
+You can access the interview using the following link:
+${url}
+
+Please ensure you complete the interview before the deadline. If you have any questions or require assistance, feel free to reach out.
+
+Looking forward to your responses!
+
+Best regards,
+`;
     
     let shareUrl = '';
     
