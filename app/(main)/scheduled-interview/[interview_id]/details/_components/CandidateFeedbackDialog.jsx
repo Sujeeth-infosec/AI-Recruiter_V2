@@ -22,6 +22,8 @@ function CandidateFeedbackDialog({ candidate }) {
     Thinking: 0
   };
 
+  
+
   // Handle all possible cases for recommendation message
   const recommendationMessage = 
     feedback?.RecommendationMessage || 
@@ -76,7 +78,6 @@ Congratulations again!
 
 Best regards,
 ${candidate?.userName || "Candidate"}
-${candidate?.jobPosition || "the position"}
 ${candidate?.userEmail || "No Email"}`,
 
     rejected: `Subject: Update on Your Application for ${candidate?.jobPosition || "the position"}
@@ -101,7 +102,6 @@ We wish you the best in your job search and professional endeavors.
 
 Best regards,
 ${candidate?.userName || "Candidate"}
-${candidate?.jobPosition || "the position"}
 ${candidate?.userEmail || "No Email"}`,
 
     reevaluate: `Subject: Request for Additional Evaluation for ${candidate?.jobPosition || "the position"}
@@ -126,7 +126,6 @@ We appreciate your time and interest, and we look forward to continuing the conv
 
 Best regards,
 ${candidate?.userName || "Candidate"}
-${candidate?.jobPosition || "the position"}
 ${candidate?.userEmail || "No Email"}`,
   };
 
@@ -241,7 +240,7 @@ ${candidate?.userEmail || "No Email"}`,
                       variant="outline" 
                       className="text-yellow-600 border-yellow-600 hover:bg-yellow-50"
                     >
-                      Request Reevaluation
+                      Request Re-Evaluation
                     </Button>
                   </div>
                 </div>
