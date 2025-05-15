@@ -60,31 +60,32 @@ function Interview() {
     }
   };
 
-  // const validateJoin = () => {
-  //    Validate user name
-  //    if (!userName.trim()) {
-  //     toast.warning('Full name is required');
-  //     return false;
-  //   }
-  //    Ensure the user name has at least two words (e.g., "First Last")
-  //   if (userName.trim().split(' ').length < 2) {
-  //     toast.warning('Please provide your full name (e.g., First Last)');
-  //     return false;
-  //   }
-
-  //    Validate email
-  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Strict email validation
-  //   if (!emailRegex.test(userEmail)) {
-  //     toast.warning('Valid email required (e.g., user@domain.com)');
-  //     return false;
-  //   }
-
-  //   return true; // Validation passed
-  // };
-
+  const validateJoin = () => {
+    // Validate username
+    if (!userName.trim()) {
+      toast.warning("Full name is required");
+      return false;
+    }
+  
+    // Ensure the username has at least two words (e.g., "First Last")
+    if (userName.trim().split(" ").length < 2) {
+      toast.warning("Please provide your full name (e.g., First Last)");
+      return false;
+    }
+  
+    // Validate email
+    const emailRegex = /^[^\s@]+@domain\.com$/; // Strict email validation for @domain.com
+    if (!emailRegex.test(userEmail)) {
+      toast.warning("Valid email required (e.g., user@domain.com)");
+      return false;
+    }
+  
+    return true; // Validation passed
+  };
+  
   const onJoinInterview = async () => {
-    // if (!validateJoin()) return; // Deny entry if validation fails
-
+    if (!validateJoin()) return; // Deny entry if validation fails
+  
     try {
       setInterviewInfo({
         ...interviewInfo,
@@ -97,12 +98,12 @@ function Interview() {
         questionList: interviewData?.questionList,
         interview_id: interview_id,
       });
-      
-      toast.success('Creating your interview session...');
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Smooth delay
+  
+      toast.success("Creating your interview session...");
+      await new Promise((resolve) => setTimeout(resolve, 1500)); // Smooth delay
       router.push(`/interview/${interview_id}/start`);
     } catch (error) {
-      toast.error('Connection failed');
+      toast.error("Connection failed");
     }
   };
 
