@@ -246,8 +246,8 @@ Key Guidelines:
                 )}
                 <div className="relative z-10 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-md bg-blue-100">
                   <Image
-                    src="/squid.jpeg" // Your AI recruiter image path
-                    alt="Squid Recruiter"
+                    src="/AIR.png" // Your AI recruiter image path
+                    alt="AI Recruiter"
                     width={80}
                     height={80}
                     className="object-cover w-full h-full" // Ensures full coverage of the circle
