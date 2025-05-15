@@ -31,42 +31,9 @@ function StartInterview() {
     picture: null,
     name: interviewInfo?.candidate_name || "Candidate"
   });
+  const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchJobPosition = async () => {
-  //     try {
-  //       // Fetch jobPosition from the "interviewInfo" table
-  //       const { data: interviewInfo, error } = await supabase
-  //         .from("Interviews")
-  //         .select("jobPosition")
-  //         .eq("interview_id", interview_id)
-  //       // Handle errors
 
-  //       if (error) {
-  //         console.error("Error fetching jobPosition:", error.message);
-  //         return;
-  //       }
-  //       console.log("Fetched interviewInfo:", interviewInfo);
-  //       // Check if interviewInfo is not null
-
-  //       if (interviewInfo) {
-  //         console.log("Fetched jobPosition:", interviewInfo?.jobPosition);
-
-  //         // Update interviewInfo with the fetched jobPosition
-  //         setInterviewInfo((prev) => ({
-  //           ...prev,
-  //           jobPosition: interviewInfo?.jobPosition,
-  //         }));
-  //       }
-  //     } catch (err) {
-  //       console.error("Unexpected error:", err);
-  //     }
-  //   };
-
-  //   if (interview_id) {
-  //     fetchJobPosition();
-  //   }
-  // }, [interview_id, setInterviewInfo]);
 
   useEffect(() => {
     // Load Google profile if available and userProfile is not already set
@@ -191,6 +158,7 @@ Key Guidelines:
     vapi.on("speech-end", handleSpeechEnd);
     vapi.on("call-end", () => {
       toast('Call has ended. Generating feedback...');
+      setIsGeneratingFeedback(true);
       GenerateFeedback();
     });
 
@@ -236,6 +204,8 @@ Key Guidelines:
     } catch (error) {
       console.error("Feedback generation failed:", error);
       toast.error("Failed to generate feedback");
+    } finally {
+      setIsGeneratingFeedback(false);
     }
   };
 
@@ -362,6 +332,15 @@ Key Guidelines:
           </div>
         </div>
       </div>
+      {isGeneratingFeedback && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-8 max-w-md w-full text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
+            <h2 className="text-xl font-bold text-gray-800 mb-2">Generating Feedback</h2>
+            <p className="text-gray-600">Please wait while we analyze your interview...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
