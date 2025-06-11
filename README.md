@@ -9,7 +9,7 @@
 
 **AI-Recruiter** is an AI-powered recruitment automation platform developed to streamline and enhance the hiring process. Leveraging state-of-the-art technologies like Large Language Models (LLMs), RAG (Retrieval-Augmented Generation), and voice AI, it offers recruiters and candidates a fully automated, intelligent, and voice-interactive interview experience.
 
-Visit `https://ai-recruiter-pi.vercel.app/` to access the live web application.
+Visit ```https://ai-recruiter-pi.vercel.app``` to access the live web application.
 
 ---
 
